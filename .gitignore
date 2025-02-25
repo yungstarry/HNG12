@@ -1,4 +1,3 @@
-*Google-Playstore_Main.csv
-*stage4/stage_4DA.pbix
-
-
+Google-Playstore_Main.csv
+stage4/*.pbix
+appleAppData.csv
