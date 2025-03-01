@@ -1,5 +1,6 @@
 # Driving Google Play Store Growth: Predictive Insights for App Growth
 
+[Click to view the dashboard on Power Bi Service](https://app.powerbi.com/view?r=eyJrIjoiNmQyNGFiMTktY2M1ZC00YmZjLWI0ODktNTIxNzRjYzM3NzYxIiwidCI6IjhmNzg3ODg0LTA2MTctNDEzMi05MzFhLTQyYjljM2ViNjM3YiJ9)
 
 ## 1. Introduction
 The Google Play Store is a competitive marketplace where millions of apps compete for user attention. This report provides a comprehensive analysis of app performance, user engagement, and monetization trends using advanced analytics and predictive modeling. The insights will help Google Play Store executives optimize pricing strategies, improve user retention, and identify growth opportunities.  
