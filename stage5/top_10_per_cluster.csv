@@ -1,0 +1,41 @@
+Keyword,Region,Avg. monthly searches,Growth,Competition,Competition (indexed value),Top of page bid (low range),Top of page bid (high range),Start Date,End Date,Cluster,Intent
+backend optimization,USA,50000,0%,Low,17,2,5,3/1/2024,2/28/2025,0,Navigational
+openapi specification,USA,50000,0%,Low,1,3.07,16.7,3/1/2024,2/28/2025,0,Navigational
+backend developer vs front end developer,USA,5000,0%,Low,1,0.23,10.01,3/1/2024,2/28/2025,0,Informational
+fastapi python,USA,5000,0%,Low,1,0.67,8.84,3/1/2024,2/28/2025,0,Navigational
+front end vs backend developer,USA,5000,0%,Low,1,0.23,10.01,3/1/2024,2/28/2025,0,Informational
+front vs back end developer,USA,5000,0%,Low,1,0.23,10.01,3/1/2024,2/28/2025,0,Informational
+front end developer vs backend,USA,5000,0%,Low,0,0.23,5.08,3/1/2024,2/28/2025,0,Informational
+Automated error correction,USA,500,0%,Medium,14,3.85,9.3,3/1/2024,2/28/2025,0,Navigational
+backend and frontend programming,USA,500,0%,Low,9,3.16,13.4,3/1/2024,2/28/2025,0,Informational
+Code generation for backend,USA,500,0%,Medium,18,3,6.01,3/1/2024,2/28/2025,0,Navigational
+developer api tools,USA,500000,0%,Low,30,2.51,8.13,3/1/2024,2/28/2025,1,Transactional
+open api,USA,50000,0%,Low,1,3.07,16.7,3/1/2024,2/28/2025,1,Navigational
+rest api,USA,50000,0%,Low,1,1.03,11.15,3/1/2024,2/28/2025,1,Navigational
+test an api,USA,5000,0%,Low,19,2.98,8.05,3/1/2024,2/28/2025,1,Transactional
+api key,USA,5000,0%,Low,9,2.37,9.51,3/1/2024,2/28/2025,1,Navigational
+graphql api,USA,5000,0%,Low,4,1.29,7.99,3/1/2024,2/28/2025,1,Navigational
+swagger api,USA,5000,0%,Low,12,1.98,13.87,3/1/2024,2/28/2025,1,Navigational
+api management,USA,5000,0%,Low,27,9.78,25.22,3/1/2024,2/28/2025,1,Navigational
+api documentation,USA,5000,0%,Low,8,2.68,10.43,3/1/2024,2/28/2025,1,Navigational
+mock api,USA,5000,0%,Low,20,3.68,10.81,3/1/2024,2/28/2025,1,Navigational
+build app,USA,5000,0%,Medium,41,2.94,12.1,3/1/2024,2/28/2025,2,Navigational
+backend vs frontend development,USA,5000,0%,Low,0,0.23,5.08,3/1/2024,2/28/2025,2,Informational
+AI-powered API testing,USA,5000,0%,High,25,3.69,10.79,3/1/2024,2/28/2025,2,Transactional
+AI-powered code generation,USA,5000,0%,High,34,3.25,15.03,3/1/2024,2/28/2025,2,Navigational
+backend vs frontend web development,USA,5000,0%,Low,0,0.23,5.08,3/1/2024,2/28/2025,2,Informational
+website and app development,USA,5000,0%,Low,10,6.07,40.6,3/1/2024,2/28/2025,2,Navigational
+backend development,USA,5000,0%,Low,6,2.01,6.44,3/1/2024,2/28/2025,2,Navigational
+fast backend development,USA,5000,0%,Low,24,6.24,24.29,3/1/2024,2/28/2025,2,Navigational
+api development,USA,5000,0%,Low,22,3.92,19.06,3/1/2024,2/28/2025,2,Navigational
+app development services,USA,5000,900%,Low,5,17.85,65.14,3/1/2024,2/28/2025,2,Navigational
+postgresql integration,USA,50000,900%,Low,,1,,3/1/2024,2/28/2025,3,Navigational
+api integration,USA,5000,0%,Low,23,4.95,17.53,3/1/2024,2/28/2025,3,Navigational
+api integration testing,USA,500,-90%,Low,14,3.88,12.21,3/1/2024,2/28/2025,3,Transactional
+sql server integration,USA,500,0%,Low,2.43,1,8.36,3/1/2024,2/28/2025,3,Navigational
+Database integration,USA,500,0%,Medium,11,2.13,11.78,3/1/2024,2/28/2025,3,Navigational
+GitHub integration,USA,500,0%,Medium,30,2.44,9.71,3/1/2024,2/28/2025,3,Navigational
+API integration testing,USA,500,0%,Medium,19,4,7.9,3/1/2024,2/28/2025,3,Transactional
+continuous integration api,USA,500,0%,Low,2,3.65,18.76,3/1/2024,2/28/2025,3,Navigational
+api integration testing tools,USA,50,0%,Low,26,2.17,13.94,3/1/2024,2/28/2025,3,Transactional
+data integration systems,USA,50,0%,Low,6.83,10,25,3/1/2024,2/28/2025,3,Navigational
