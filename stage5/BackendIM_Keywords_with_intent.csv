@@ -1,0 +1,22 @@
+Keyword,Region,Avg. monthly searches,Growth,Competition,Competition (indexed value),Top of page bid (low range),Top of page bid (high range),Start Date,End Date,Cluster,Intent
+backend optimization,USA,50000,0%,Low,17,2.0,5.0,03/01/2024,2/28/2025,0,Commercial
+fastapi python,USA,5000,0%,Low,1,0.67,8.84,03/01/2024,2/28/2025,0,Commercial
+Automated error correction,USA,500,0%,Medium,14,3.85,9.3,03/01/2024,2/28/2025,0,Navigational
+Code generation for backend,USA,500,0%,Medium,18,3.0,6.01,03/01/2024,2/28/2025,0,Informational
+developer api tools,USA,500000,0%,Low,30,2.51,8.13,03/01/2024,2/28/2025,1,Transactional
+rest api,USA,50000,0%,Low,1,1.03,11.15,03/01/2024,2/28/2025,1,Navigational
+test an api,USA,5000,0%,Low,19,2.98,8.05,03/01/2024,2/28/2025,1,Transactional
+graphql api,USA,5000,0%,Low,4,1.29,7.99,03/01/2024,2/28/2025,1,Navigational
+api management,USA,5000,0%,Low,27,9.78,25.22,03/01/2024,2/28/2025,1,Navigational
+mock api,USA,5000,0%,Low,20,3.68,10.81,03/01/2024,2/28/2025,1,Navigational
+AI-powered API testing,USA,5000,0%,High,25,3.69,10.79,03/01/2024,2/28/2025,2,Transactional
+AI-powered code generation,USA,5000,0%,High,34,3.25,15.03,03/01/2024,2/28/2025,2,Informational
+backend development,USA,5000,0%,Low,6,2.01,6.44,03/01/2024,2/28/2025,2,Informational
+fast backend development,USA,5000,0%,Low,24,6.24,24.29,03/01/2024,2/28/2025,2,Informational
+api integration,USA,5000,0%,Low,23,4.95,17.53,03/01/2024,2/28/2025,3,Informational
+api integration testing,USA,500,-90%,Low,14,3.88,12.21,03/01/2024,2/28/2025,3,Informational
+Database integration,USA,500,0%,Medium,11,2.13,11.78,03/01/2024,2/28/2025,3,Informational
+GitHub integration,USA,500,0%,Medium,30,2.44,9.71,03/01/2024,2/28/2025,3,Informational
+API integration testing,USA,500,0%,Medium,19,4.0,7.9,03/01/2024,2/28/2025,3,Informational
+continuous integration api,USA,500,0%,Low,2,3.65,18.76,03/01/2024,2/28/2025,3,Informational
+api integration testing tools,USA,50,0%,Low,26,2.17,13.94,03/01/2024,2/28/2025,3,Informational
