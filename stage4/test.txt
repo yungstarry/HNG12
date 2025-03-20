@@ -1,29 +1,7 @@
-WITH tutor_hours AS (
-    SELECT 
-        t.tutor_id,
-        SUM(s.duration_hours) AS total_hours
-    FROM tutors t
-    JOIN sessions s ON t.tutor_id = s.tutor_id
-    WHERE s.session_date >= '2025-02-16'
-    GROUP BY t.tutor_id
-),
-avg_hours AS (
-    SELECT AVG(total_hours) AS avg_time
-    FROM tutor_hours
-),
-top_tutors AS (
-    SELECT 
-        th.tutor_id,
-        th.total_hours,
-        RANK() OVER (ORDER BY th.total_hours DESC) AS hours_rank,
-        (th.total_hours / SUM(th.total_hours) OVER ()) * 100 AS percentage_of_total
-    FROM tutor_hours th, avg_hours ah
-    WHERE th.total_hours > ah.avg_time
-)
-SELECT 
-    tutor_id,
-    ROUND(total_hours, 2) AS total_hours,
-    hours_rank,
-    ROUND(percentage_of_total, 2) AS percentage_of_total
-FROM top_tutors
-ORDER BY hours_rank;
+ SELECT customer_id, sum(quantity*price_per_unit) as sales,
+  count(transaction_id) as num_transactions
+  from sales_transactions
+  where transaction_date between CURRENT_DATE - INTERVAL '30 days' and CURRENT_DATE
+group by customer_id
+order by sales DESC
+limit 3;
