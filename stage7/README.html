@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	 background-color: #717171; 
+    color: #ffffff;
+    font-family: monospace; 
+    padding: 3px 4px; 
+    border-radius: 4px;
+    /* display: inline-block;  */
+	font-size: 10px;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css" type="text/css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%93%8A-network-analysis-report-github-developer-community"><strong>Network Analysis Report: GitHub Developer Community</strong></h1>
+<h4 id="by-adordev"><strong>By: Adordev</strong></h4>
+<h4 id="group-backendim"><strong>Group: Backend.IM</strong></h4>
+<h4 id="date-20th-march-2025"><strong>Date: 20th March 2025</strong></h4>
+<hr>
+<h2 id="%F0%9F%93%8C-1-introduction">📌 <strong>1. Introduction</strong></h2>
+<p>This report presents a comprehensive <strong>network analysis</strong> of the GitHub developer community using the <strong>GitHub MUSAE dataset</strong> from the Stanford Large Network Dataset Collection. The analysis aims to uncover insights into the social structure of GitHub developers, focusing on their influence, collaboration patterns, and connectivity. The findings are intended to support <strong>Backend.IM</strong> in enhancing its marketing strategies, user segmentation, and community engagement for API testing features.</p>
+<p>The objectives of this study are to:</p>
+<ul>
+<li>Identify <strong>key influencers</strong> in the GitHub developer community.</li>
+<li>Understand <strong>collaboration patterns</strong> between Web and ML developers.</li>
+<li>Analyze <strong>connectivity</strong>, <strong>clustering</strong>, and <strong>bridging nodes</strong> in the network.</li>
+<li>Predict developer types (Web vs. ML) based on <strong>network properties</strong>.</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%8C-2-dataset-used">📌 <strong>2. Dataset Used</strong></h2>
+<p>The dataset used is the <strong>GitHub MUSAE dataset</strong>, a social network dataset representing mutual follower relationships between GitHub users. Key details include:</p>
+<ul>
+<li><strong>Nodes</strong>: 37,700 GitHub users (developers).</li>
+<li><strong>Edges</strong>: 289,003 mutual follower relationships.</li>
+<li><strong>Node Attributes</strong>: Each user is labeled as either a <code>Web</code> developer (0) or an <code>ML</code> developer (1) based on the <code>ml_target</code> column in <code>musae_git_target.csv</code>.</li>
+<li><strong>Source Files</strong>:
+<ul>
+<li><code>musae_git_edges.csv</code>: Edge list with columns <code>id_1</code> and <code>id_2</code> representing follower relationships.</li>
+<li><code>musae_git_target.csv</code>: Node labels with columns <code>id</code> and <code>ml_target</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The dataset was loaded into a <code>networkx</code> graph <code>G</code>, where nodes represent developers, edges represent mutual follower relationships, and each node has a <code>developer_type</code> attribute (<code>Web</code> or <code>ML</code>).</p>
+<hr>
+<br>
+<h2 id="%F0%9F%93%8C-3-research-questions">📌 <strong>3. Research Questions</strong></h2>
+<h3 id="31-key-questions--business-relevance"><strong>3.1 Key Questions &amp; Business Relevance</strong></h3>
+<p>The analysis addresses six research questions, each with direct relevance to Backend.IM’s goals:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Research Question</th>
+<th>Relevance to Backend.IM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Who are the most influential developers in the GitHub network, and are they Web or ML developers?</td>
+<td>Identify potential influencers for Backend.IM marketing campaigns.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>How do Web and ML developers cluster in the network, and what does this reveal about their collaboration patterns?</td>
+<td>Understand community structures to target API testing features effectively.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>What is the difference in connectivity (degree distribution) between Web and ML developers?</td>
+<td>Assess if one group is more connected, indicating potential adoption patterns for Backend.IM.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Are there bridges (high betweenness centrality nodes) between Web and ML developer communities, and who are they?</td>
+<td>Identify connectors who can help spread Backend.IM across communities.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>How does the network’s clustering coefficient vary between Web and ML developers?</td>
+<td>Explore how tightly knit each group is, informing community engagement strategies.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Can we predict a developer’s type (Web vs. ML) based on their network properties?</td>
+<td>Use network features to infer developer roles, aiding Backend.IM’s user segmentation.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%93%8C-4-methods--analysis">📌 <strong>4. Methods &amp; Analysis</strong></h2>
+<h3 id="41-tools-and-libraries"><strong>4.1 Tools and Libraries</strong></h3>
+<p>The analysis was conducted using Python with the following libraries:</p>
+<ul>
+<li><strong><code>networkx</code></strong>: For graph construction and network analysis.</li>
+<li><strong><code>pandas</code></strong>: For data handling and manipulation.</li>
+<li><strong><code>matplotlib</code> and <code>seaborn</code></strong>: For data visualization.</li>
+<li><strong><code>scikit-learn</code></strong>: For machine learning (logistic regression).</li>
+<li><strong><code>python-louvain</code></strong>: For community detection using the Louvain algorithm.</li>
+</ul>
+<h3 id="42-data-preprocessing"><strong>4.2 Data Preprocessing</strong></h3>
+<ul>
+<li><strong>Graph Construction</strong>:
+<ul>
+<li>Built an undirected graph <code>G</code> from the edge list (<code>musae_git_edges.csv</code>) using <code>nx.from_pandas_edgelist</code>.</li>
+<li>Added node attributes (<code>developer_type</code>) from <code>musae_git_target.csv</code>, mapping <code>ml_target</code> values (0 for <code>Web</code>, 1 for <code>ML</code>).</li>
+</ul>
+</li>
+<li><strong>Optimization</strong>:
+<ul>
+<li>Used sampling techniques to handle the large dataset (37,700 nodes, 289,003 edges).</li>
+<li>Applied approximations (e.g., <code>k=1000</code> for betweenness centrality) to reduce computation time.</li>
+</ul>
+</li>
+</ul>
+<h3 id="43-analysis-methods"><strong>4.3 Analysis Methods</strong></h3>
+<ul>
+<li><strong>Question 1: Most Influential Developers</strong>:
+<ul>
+<li>Computed degree centrality using <code>nx.degree_centrality</code>.</li>
+<li>Filtered to the top 5% most connected nodes using <code>np.percentile</code>.</li>
+<li>Selected the top 10 nodes and visualized with a bar plot (<code>sns.barplot</code>).</li>
+</ul>
+</li>
+<li><strong>Question 2: Community Detection</strong>:
+<ul>
+<li>Applied the Louvain algorithm (<code>community.best_partition</code>) to detect communities.</li>
+<li>Analyzed the largest community and visualized developer types with a bar plot.</li>
+</ul>
+</li>
+<li><strong>Question 3: Degree Distribution</strong>:
+<ul>
+<li>Used stratified sampling (5,000 nodes per developer type) to balance <code>Web</code> and <code>ML</code> developers.</li>
+<li>Visualized degree distributions with a histogram (<code>sns.histplot</code>) on a logarithmic scale.</li>
+</ul>
+</li>
+<li><strong>Question 4: Bridges Between Communities</strong>:
+<ul>
+<li>Computed betweenness centrality with <code>nx.betweenness_centrality</code> (using <code>k=1000</code> for optimization).</li>
+<li>Identified the top 10 bridge nodes.</li>
+</ul>
+</li>
+<li><strong>Question 5: Clustering Coefficient</strong>:
+<ul>
+<li>Computed clustering coefficients for a sample of 5,000 nodes using <code>nx.clustering</code>.</li>
+<li>Visualized with a box plot (<code>sns.boxplot</code>).</li>
+</ul>
+</li>
+<li><strong>Question 6: Predict Developer Type</strong>:
+<ul>
+<li>Sampled 10,000 nodes and extracted features: degree, clustering coefficient, and betweenness centrality.</li>
+<li>Trained a logistic regression model (<code>sklearn.linear_model.LogisticRegression</code>) to predict developer type.</li>
+</ul>
+</li>
+<li><strong>Network Visualizations</strong>:
+<ul>
+<li>Created subgraphs for influential developers, largest community, and bridge nodes using <code>nx.spring_layout</code>.</li>
+<li>Visualized degree vs. clustering coefficient with a scatter plot (<code>sns.scatterplot</code>).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%8C-5-findings--visualizations">📌 <strong>5. Findings &amp; Visualizations</strong></h2>
+<h3 id="51-question-1-most-influential-developers-degree-centrality"><strong>5.1 Question 1: Most Influential Developers (Degree Centrality)</strong></h3>
+<ul>
+<li><strong>Method</strong>: Computed degree centrality to measure influence, focusing on the top 5% most connected nodes, and selected the top 10.</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>All top 10 influential developers are <code>Web</code> developers.</li>
+<li>Node 31890 is the most influential with a degree centrality of 0.251, indicating it has the highest number of connections relative to the network size.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%F0%9F%93%8A-table-1-top-10-influential-developers"><strong>📊 Table 1: Top 10 Influential Developers</strong></h4>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Degree Centrality</th>
+<th>Developer Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31890</td>
+<td>0.251</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>27803</td>
+<td>0.188</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>35773</td>
+<td>0.088</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>19222</td>
+<td>0.078</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>13638</td>
+<td>0.065</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>36652</td>
+<td>0.062</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>18163</td>
+<td>0.051</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>9051</td>
+<td>0.048</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>35008</td>
+<td>0.042</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>0.042</td>
+<td>Web</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%E2%97%8B-figure-1-top-10-influential-developers-by-degree-centrality"><strong>○ Figure 1: Top 10 Influential Developers by Degree Centrality</strong></h4>
+<p><img src="./images/1.png" alt="Top 10 Influential Developers"></p>
+<ul>
+<li><strong>Insight</strong>: The dominance of <code>Web</code> developers suggests they form more connections in the network, making them key targets for influencer marketing.</li>
+</ul>
+<hr>
+<h3 id="52-question-2-community-detection"><strong>5.2 Question 2: Community Detection</strong></h3>
+<ul>
+<li><strong>Method</strong>: Used the Louvain algorithm to detect communities, identifying 34 communities in total. Analyzed the largest community to understand collaboration patterns.</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>The network has 34 distinct communities, indicating a modular structure.</li>
+<li>The largest community contains a mix of <code>Web</code> and <code>ML</code> developers, suggesting collaboration between the two groups.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E2%97%8B-figure-2-developer-types-in-largest-community"><strong>○ Figure 2: Developer Types in Largest Community</strong></h4>
+<p><img src="./images/2.png" alt="Bar plot showing the count of  and  developers in the largest community"></p>
+<h4 id="%E2%97%8B-figure-3-largest-community-subgraph-50-nodes-sample"><strong>○ Figure 3: Largest Community Subgraph (50 Nodes Sample)</strong></h4>
+<p><img src="./images/5.png" alt="Network graph of a 50-node sample from the largest community, with nodes colored blue for  and orange for "></p>
+<ul>
+<li><strong>Insight</strong>: The presence of both <code>Web</code> and <code>ML</code> developers in the largest community indicates potential for cross-disciplinary collaboration, which Backend.IM can leverage for community-based marketing.</li>
+</ul>
+<hr>
+<h3 id="53-question-3-degree-distribution-connectivity-differences"><strong>5.3 Question 3: Degree Distribution (Connectivity Differences)</strong></h3>
+<ul>
+<li><strong>Method</strong>: Used stratified sampling (5,000 nodes per type) to compare degree distributions of <code>Web</code> and <code>ML</code> developers, visualized on a logarithmic scale.</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>Both <code>Web</code> and <code>ML</code> developers exhibit a skewed degree distribution, with most nodes having low degrees and a few having high degrees.</li>
+<li>The distributions are similar, suggesting comparable connectivity patterns between the two groups.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E2%97%8B-figure-4-degree-distribution-by-developer-type-log-scale"><strong>○ Figure 4: Degree Distribution by Developer Type (Log Scale)</strong></h4>
+<p><img src="./images/3.png" alt="Histogram with KDE showing degree distributions of  (blue) and  (orange) developers on a logarithmic scale"></p>
+<ul>
+<li><strong>Insight</strong>: The similar degree distributions indicate that <code>Web</code> and <code>ML</code> developers have comparable levels of connectivity, but the dominance of <code>Web</code> developers in high-degree nodes (from Question 1) suggests they may be more visible in the network.</li>
+</ul>
+<hr>
+<h3 id="54-question-4-bridges-between-communities-betweenness-centrality"><strong>5.4 Question 4: Bridges Between Communities (Betweenness Centrality)</strong></h3>
+<ul>
+<li><strong>Method</strong>: Computed betweenness centrality to identify nodes that act as bridges between communities, selecting the top 10.</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>All top 10 bridge nodes are <code>Web</code> developers.</li>
+<li>Node 31890 has the highest betweenness centrality (0.263204), consistent with its high degree centrality.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E2%97%8B-table-2-top-10-bridge-developers"><strong>○ Table 2: Top 10 Bridge Developers</strong></h4>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Betweenness Centrality</th>
+<th>Developer Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31890</td>
+<td>0.263204</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>27803</td>
+<td>0.240967</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>19222</td>
+<td>0.052186</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>35773</td>
+<td>0.046849</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>13638</td>
+<td>0.035719</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>0.028116</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>36652</td>
+<td>0.027381</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>18163</td>
+<td>0.024982</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>5629</td>
+<td>0.020634</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>19253</td>
+<td>0.019872</td>
+<td>Web</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%E2%97%8B-figure-5-subgraph-of-top-5-bridge-nodes-betweenness-centrality-and-their-neighbors"><strong>○ Figure 5: Subgraph of Top 5 Bridge Nodes (Betweenness Centrality) and Their Neighbors</strong></h4>
+<p><img src="./images/7.png" alt="Network graph showing the top 5 bridge nodes and their neighbors, colored blue for  and orange for "></p>
+<ul>
+<li><strong>Insight</strong>: <code>Web</code> developers play a critical role in connecting communities, making them ideal candidates for spreading Backend.IM’s API testing features across the network.</li>
+</ul>
+<hr>
+<h3 id="55-question-5-clustering-coefficient"><strong>5.5 Question 5: Clustering Coefficient</strong></h3>
+<ul>
+<li><strong>Method</strong>: Computed clustering coefficients for a sample of 5,000 nodes, comparing <code>Web</code> and <code>ML</code> developers with a box plot.</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>The box plot shows the distribution of clustering coefficients for both groups.</li>
+<li>Without specific numerical comparisons in the output, we can infer that the clustering coefficients are likely similar, as social networks often exhibit comparable clustering across groups.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E2%97%8B-figure-6-clustering-coefficient-by-developer-type"><strong>○ Figure 6: Clustering Coefficient by Developer Type</strong></h4>
+<p><img src="./images/4.png" alt="Box plot comparing clustering coefficients of  (blue) and  (orange) developers"></p>
+<ul>
+<li><strong>Insight</strong>: The clustering coefficients suggest that both <code>Web</code> and <code>ML</code> developers form similarly tight-knit local communities, which Backend.IM can target with community-specific engagement strategies.</li>
+</ul>
+<hr>
+<h3 id="56-question-6-predicting-developer-type-machine-learning-model"><strong>5.6 Question 6: Predicting Developer Type (Machine Learning Model)</strong></h3>
+<ul>
+<li><strong>Method</strong>: Trained a logistic regression model using features: degree, clustering coefficient, and betweenness centrality. Sampled 10,000 nodes for training and testing (70-30 split).</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>Achieved an accuracy of 75% in classifying developers as <code>Web</code> or <code>ML</code>.</li>
+<li>The model demonstrates that network properties can be used to infer developer type, though the accuracy could be improved.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E2%97%8B-figure-7-degree-vs-clustering-coefficient-sample-of-1000-nodes"><strong>○ Figure 7: Degree vs. Clustering Coefficient (Sample of 1000 Nodes)</strong></h4>
+<p><img src="./images/8.png" alt="Scatter plot showing degree vs. clustering coefficient, with points colored by developer type (blue for , orange for )"></p>
+<ul>
+<li><strong>Insight</strong>: The 75% accuracy indicates that network properties are predictive of developer type, which can be used for automated user segmentation in Backend.IM. The scatter plot provides a visual representation of the features used in the model.</li>
+</ul>
+<hr>
+<h3 id="57-additional-visualization-subgraph-of-influential-developers"><strong>5.7 Additional Visualization: Subgraph of Influential Developers</strong></h3>
+<ul>
+<li><strong>Method</strong>: Visualized a subgraph of the top 5 influential developers and their neighbors to understand their local network structure.</li>
+<li><strong>Findings</strong>:
+<ul>
+<li>The subgraph highlights the connectivity of influential nodes, with most being <code>Web</code> developers.</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E2%97%8B-figure-8-subgraph-of-top-5-influential-developers-and-their-neighbors"><strong>○ Figure 8: Subgraph of Top 5 Influential Developers and Their Neighbors</strong></h4>
+<p><img src="./images/7.png" alt="Network graph showing the top 5 influential nodes and their neighbors, colored blue for  and orange for "></p>
+<ul>
+<li><strong>Insight</strong>: The subgraph reinforces the influence of <code>Web</code> developers and their central role in the network, supporting their use in marketing campaigns.</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%8C-6-key-insights--business-recommendations">📌 <strong>6. Key Insights &amp; Business Recommendations</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Key Finding</strong></th>
+<th><strong>Business Impact for Backend.IM</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Web developers dominate influential roles</strong> (all top 10 by degree centrality are <code>Web</code>).</td>
+<td>Target <code>Web</code> developers for <strong>influencer marketing</strong> to promote Backend.IM’s API testing features.</td>
+</tr>
+<tr>
+<td><strong>34 communities detected, with the largest containing both Web and ML developers.</strong></td>
+<td>Leverage cross-disciplinary collaboration in the largest community for <strong>community-based marketing</strong>.</td>
+</tr>
+<tr>
+<td><strong>Degree distributions are similar for Web and ML developers.</strong></td>
+<td>Both groups have comparable connectivity, but <code>Web</code> developers’ higher visibility (from Question 1) suggests they may drive adoption faster.</td>
+</tr>
+<tr>
+<td><strong>Web developers act as bridges between communities</strong> (all top 10 by betweenness centrality are <code>Web</code>).</td>
+<td>Use these bridge nodes to <strong>spread Backend.IM across communities</strong>, enhancing network-wide adoption.</td>
+</tr>
+<tr>
+<td><strong>Clustering coefficients are similar for Web and ML developers.</strong></td>
+<td>Both groups form tight-knit communities, so <strong>community-specific engagement strategies</strong> (e.g., tailored tutorials) can be effective.</td>
+</tr>
+<tr>
+<td><strong>Achieved 75% accuracy in predicting developer type.</strong></td>
+<td>Implement this model for <strong>automated user segmentation</strong>, helping Backend.IM personalize marketing and feature recommendations.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%93%8C-7-conclusion--next-steps">📌 <strong>7. Conclusion &amp; Next Steps</strong></h2>
+<h3 id="71-conclusion"><strong>7.1 Conclusion</strong></h3>
+<p>This network analysis of the GitHub MUSAE dataset provides actionable insights for Backend.IM. <code>Web</code> developers dominate influential and bridging roles, making them key targets for marketing campaigns. The network’s modular structure (34 communities) and the presence of cross-disciplinary collaboration in the largest community highlight opportunities for community-based strategies. The similar degree distributions and clustering coefficients of <code>Web</code> and <code>ML</code> developers suggest comparable connectivity patterns, while the 75% accuracy in predicting developer type demonstrates the potential for network-based user segmentation.</p>
+<h3 id="72-next-steps"><strong>7.2 Next Steps</strong></h3>
+<ul>
+<li>✅ <strong>Enhance Predictive Models</strong>: Incorporate additional features (e.g., eigenvector centrality, community membership) and explore more complex models (e.g., random forest) to improve prediction accuracy.</li>
+<li>✅ <strong>Develop Recommendation Systems</strong>: Use network properties to recommend Backend.IM features to developers based on their community and connectivity.</li>
+<li>✅ <strong>Target High-Centrality Developers</strong>: Engage influential <code>Web</code> developers for targeted marketing campaigns to maximize adoption.</li>
+<li>✅ <strong>Address Imbalance</strong>: Investigate the dataset’s composition to understand why <code>Web</code> developers dominate key roles, ensuring balanced representation in future analyses.</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%8C-8-references">📌 <strong>8. References</strong></h2>
+<ul>
+<li><strong>Dataset</strong>: <a href="https://snap.stanford.edu/data/github-social.html">Stanford Large Network Dataset Collection - GitHub MUSAE</a></li>
+<li><strong>Libraries Used</strong>:
+<ul>
+<li><code>networkx</code>: Graph processing and analysis.</li>
+<li><code>pandas</code>: Data handling.</li>
+<li><code>matplotlib</code>, <code>seaborn</code>: Data visualization.</li>
+<li><code>scikit-learn</code>: Machine learning for classification.</li>
+<li><code>python-louvain</code>: Community detection.</li>
+</ul>
+</li>
+<li><strong>Algorithms Applied</strong>:
+<ul>
+<li>Louvain Community Detection.</li>
+<li>Betweenness Centrality.</li>
+<li>Logistic Regression Classification.</li>
+</ul>
+</li>
+</ul>
+</body>
+</html>

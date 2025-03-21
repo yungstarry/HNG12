@@ -1,4 +1,4 @@
-# 📊 **Network Analysis Report: GitHub Developer Community**
+# **Network Analysis Report: GitHub Developer Community**
 
 #### **By: Adordev**
 #### **Group: Backend.IM**
