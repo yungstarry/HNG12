@@ -1,19 +1,22 @@
-WITH last_6_months AS (
-    SELECT emp_id, COUNT(*) AS number_of_orders
-    FROM orders
-    WHERE order_date > CURRENT_DATE - INTERVAL '6 months'
-    GROUP BY emp_id
-    HAVING COUNT(*) >= 5
-), 
-total_sales AS (
-    SELECT o.emp_id, e.emp_name, SUM(o.sales_value) AS total_sales_value
-    FROM orders o
-    JOIN employees e ON o.emp_id = e.emp_id
-    WHERE o.emp_id IN (SELECT emp_id FROM last_6_months)
-    GROUP BY o.emp_id, e.emp_name
+WITH recent_subs AS (
+    SELECT s.student_id, s.assignment_id, a.subject_id, a.start_date, s.submit_date
+    FROM submissions s
+    JOIN assignments a ON s.assignment_id = a.assignment_id
+    WHERE s.submit_date >= '2024-11-24'
+),
+student_stats AS (
+    SELECT 
+        rs.student_id,
+        st.name,
+        COUNT(DISTINCT rs.assignment_id) AS distinct_assignments,
+        COUNT(DISTINCT rs.subject_id) AS subject_count,
+        AVG(rs.submit_date - rs.start_date) AS avg_completion
+    FROM recent_subs rs
+    JOIN students st ON rs.student_id = st.student_id
+    GROUP BY rs.student_id, st.name
+    HAVING COUNT(DISTINCT rs.subject_id) >= 3 AND AVG(rs.submit_date - rs.start_date) < 5
 )
-SELECT ts.emp_id, ts.emp_name, l.number_of_orders, ts.total_sales_value
-FROM total_sales ts
-JOIN last_6_months l ON ts.emp_id = l.emp_id
-ORDER BY ts.total_sales_value DESC
+SELECT student_id, name, distinct_assignments, subject_count, ROUND(avg_completion, 2) AS avg_completion
+FROM student_stats
+ORDER BY distinct_assignments DESC
 LIMIT 3;

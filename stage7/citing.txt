@@ -1,14 +1,13 @@
-If you find this dataset useful in your research, please consider citing the following paper:
+with avg_grade as (SELECT student_id, course_name,avg(grade) as avg_grade
+	from student_grades
+	group by student_id, course_name),
+rank_student as (
+	SELECT student_id, course_name, rank() over(PARTITION by 
+    		course_name	order by avg_grade ) as student_rank, avg_grade
+  	from avg_grade  
+)
 
->@misc{rozemberczki2019multiscale,    
-       title = {Multi-scale Attributed Node Embedding},   
-       author = {Benedek Rozemberczki and Carl Allen and Rik Sarkar},   
-       year = {2019},   
-       eprint = {1909.13021},  
-       archivePrefix = {arXiv},  
-       primaryClass = {cs.LG}   
-       }
-
-And take a look at the project itself:
-
-https://github.com/benedekrozemberczki/MUSAE
+  SELECT course_name, student_id, avg_grade
+  from rank_student
+  where student_rank <= 2
+  order by course_name, student_rank
