@@ -1,0 +1,372 @@
+table outlier_scores
+	lineageTag: 4c516ede-61d5-4650-9cbb-a30aff8ec900
+
+	measure 'Total Votes' = SUM(outlier_scores[APC]) + SUM(outlier_scores[PDP]) + SUM(outlier_scores[NNPP]) + SUM(outlier_scores[LP])
+		formatString: 0
+		lineageTag: da6377fb-71b2-4db8-918d-f612a99b7927
+
+	column State
+		dataType: string
+		lineageTag: 653113a1-5312-4525-97ce-831340379126
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column LGA
+		dataType: string
+		lineageTag: 40f78648-7ae9-43cc-9a28-ed8c6f5b1c51
+		summarizeBy: none
+		sourceColumn: LGA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ward
+		dataType: string
+		lineageTag: 93335dba-1e74-4df9-8f93-c18edd5c2813
+		summarizeBy: none
+		sourceColumn: Ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column PU-Code
+		dataType: string
+		lineageTag: a7b63bba-570c-4f07-aa7c-566d09cac6b7
+		summarizeBy: none
+		sourceColumn: PU-Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column PU-Name
+		dataType: string
+		lineageTag: ebbf82bb-720b-4f92-92d6-5bbd9ad03da3
+		summarizeBy: none
+		sourceColumn: PU-Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Accredited_Voters
+		dataType: int64
+		formatString: 0
+		lineageTag: 70ba1e26-f1ef-4f12-8199-5da7adfb6be3
+		summarizeBy: sum
+		sourceColumn: Accredited_Voters
+
+		annotation SummarizationSetBy = Automatic
+
+	column Registered_Voters
+		dataType: int64
+		formatString: 0
+		lineageTag: 068a3e8a-7aff-4539-956d-32d1f3a540e9
+		summarizeBy: sum
+		sourceColumn: Registered_Voters
+
+		annotation SummarizationSetBy = Automatic
+
+	column Results_Found
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 86ce7e2a-a95b-40d4-b1a5-6d58275e529e
+		summarizeBy: none
+		sourceColumn: Results_Found
+
+		annotation SummarizationSetBy = Automatic
+
+	column Transcription_Count
+		dataType: int64
+		formatString: 0
+		lineageTag: d68ff51d-5ef5-4589-8c15-49019c02969d
+		summarizeBy: sum
+		sourceColumn: Transcription_Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result_Sheet_Stamped
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4b338694-66cf-48b6-afe7-d6d404ff4967
+		summarizeBy: none
+		sourceColumn: Result_Sheet_Stamped
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result_Sheet_Corrected
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 13622729-8a87-4ff4-b4db-184b16d11730
+		summarizeBy: none
+		sourceColumn: Result_Sheet_Corrected
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result_Sheet_Invalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6443b863-f207-459d-be0a-94549cfa268e
+		summarizeBy: none
+		sourceColumn: Result_Sheet_Invalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result_Sheet_Unclear
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 41d69045-0d5b-4386-b131-cb76d8c45dd8
+		summarizeBy: none
+		sourceColumn: Result_Sheet_Unclear
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result_Sheet_Unsigned
+		dataType: string
+		lineageTag: 77515b2c-54c2-4b20-b176-af812719d8de
+		summarizeBy: none
+		sourceColumn: Result_Sheet_Unsigned
+
+		annotation SummarizationSetBy = Automatic
+
+	column APC
+		dataType: int64
+		formatString: 0
+		lineageTag: af2e68c2-4eed-411c-8183-eac57445f061
+		summarizeBy: sum
+		sourceColumn: APC
+
+		annotation SummarizationSetBy = Automatic
+
+	column LP
+		dataType: int64
+		formatString: 0
+		lineageTag: 02b25671-4191-4a08-a0b7-3f084812de50
+		summarizeBy: sum
+		sourceColumn: LP
+
+		annotation SummarizationSetBy = Automatic
+
+	column PDP
+		dataType: int64
+		formatString: 0
+		lineageTag: 97e35bc8-3ca8-424c-8112-650fa75c55a7
+		summarizeBy: sum
+		sourceColumn: PDP
+
+		annotation SummarizationSetBy = Automatic
+
+	column NNPP
+		dataType: int64
+		formatString: 0
+		lineageTag: e6d17727-545b-4d81-aac2-cf47756d73c7
+		summarizeBy: sum
+		sourceColumn: NNPP
+
+		annotation SummarizationSetBy = Automatic
+
+	column Results_File
+		dataType: string
+		lineageTag: 6938f552-36d0-4672-ac8a-519d799cb663
+		summarizeBy: none
+		sourceColumn: Results_File
+
+		annotation SummarizationSetBy = Automatic
+
+	column Full_Location
+		dataType: string
+		lineageTag: ddd670b3-1b02-4e50-a7bb-8610e57d35dc
+		summarizeBy: none
+		sourceColumn: Full_Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: aeee421c-2d52-4fd6-b88d-13d2c200cce1
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 951f3e5a-e551-46b6-aa57-a0b96269f43c
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Latitude_rad
+		dataType: double
+		lineageTag: 63b8aab0-d879-4de0-8437-ae75836bab9f
+		summarizeBy: sum
+		sourceColumn: Latitude_rad
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude_rad
+		dataType: double
+		lineageTag: 5217fd90-d3ac-441c-99ab-2500f5ca9368
+		summarizeBy: sum
+		sourceColumn: Longitude_rad
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Cluster_500m
+		dataType: int64
+		formatString: 0
+		lineageTag: 69b4fc70-c57b-4d83-bbb2-e149c0652f0f
+		summarizeBy: none
+		sourceColumn: Cluster_500m
+
+		annotation SummarizationSetBy = User
+
+	column Cluster_1000m
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a4a8de6-05e0-457b-b59b-a5bc04e3d5f1
+		summarizeBy: none
+		sourceColumn: Cluster_1000m
+
+		annotation SummarizationSetBy = User
+
+	column Cluster_2000m
+		dataType: int64
+		formatString: 0
+		lineageTag: 9272a779-91ad-48b2-b94a-3dfe829402e6
+		summarizeBy: none
+		sourceColumn: Cluster_2000m
+
+		annotation SummarizationSetBy = User
+
+	column Local_Moran_I
+		dataType: double
+		lineageTag: c4dbe091-17be-4aa4-a81a-2843e1a40014
+		summarizeBy: sum
+		sourceColumn: Local_Moran_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Local_Moran_p
+		dataType: double
+		lineageTag: ece33ec5-d770-428e-aa8b-0b1873807e00
+		summarizeBy: sum
+		sourceColumn: Local_Moran_p
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Local_Moran_Significant
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 885af659-2900-4c32-80c2-4a3d022a7486
+		summarizeBy: none
+		sourceColumn: Local_Moran_Significant
+
+		annotation SummarizationSetBy = Automatic
+
+	column Local_Moran_Outlier
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 58224389-95bf-46ad-929e-0e06fcb710f0
+		summarizeBy: none
+		sourceColumn: Local_Moran_Outlier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Getis_Ord_Gi
+		dataType: double
+		lineageTag: 6bceb64e-c059-4ff7-bb86-a30006a88d47
+		summarizeBy: sum
+		sourceColumn: Getis_Ord_Gi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Getis_Ord_p
+		dataType: double
+		lineageTag: beddf674-1204-4726-84d4-a4da10822fd7
+		summarizeBy: sum
+		sourceColumn: Getis_Ord_p
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Getis_Ord_Significant
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ca1bffe8-4b71-4fa1-89e6-11545b263e99
+		summarizeBy: none
+		sourceColumn: Getis_Ord_Significant
+
+		annotation SummarizationSetBy = Automatic
+
+	column Getis_Ord_HotSpot
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 02bc6b3d-5958-494f-bf52-ba0b6d34853b
+		summarizeBy: none
+		sourceColumn: Getis_Ord_HotSpot
+
+		annotation SummarizationSetBy = Automatic
+
+	column Getis_Ord_ColdSpot
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 992a45c7-3d22-468e-93e6-7a3c858800b5
+		summarizeBy: none
+		sourceColumn: Getis_Ord_ColdSpot
+
+		annotation SummarizationSetBy = Automatic
+
+	column Isolation_Forest_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: ff6ecafd-c8aa-4b52-869b-1d8ce6b9bd27
+		summarizeBy: sum
+		sourceColumn: Isolation_Forest_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Isolation_Forest_Outlier
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5fb18946-5a89-4878-ae7c-244217f5bb82
+		summarizeBy: none
+		sourceColumn: Isolation_Forest_Outlier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: 77f2b76a-54db-4aa9-953c-ac4e50151662
+		summarizeBy: sum
+		sourceColumn: Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	partition outlier_scores = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\HP\OneDrive\Desktop\HNG12\stage8\outlier_scores.csv"),[Delimiter=",", Columns=39, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"State", type text}, {"LGA", type text}, {"Ward", type text}, {"PU-Code", type text}, {"PU-Name", type text}, {"Accredited_Voters", Int64.Type}, {"Registered_Voters", Int64.Type}, {"Results_Found", type logical}, {"Transcription_Count", Int64.Type}, {"Result_Sheet_Stamped", type logical}, {"Result_Sheet_Corrected", type logical}, {"Result_Sheet_Invalid", type logical}, {"Result_Sheet_Unclear", type logical}, {"Result_Sheet_Unsigned", type text}, {"APC", Int64.Type}, {"LP", Int64.Type}, {"PDP", Int64.Type}, {"NNPP", Int64.Type}, {"Results_File", type text}, {"Full_Location", type text}, {"Latitude", type number}, {"Longitude", type number}, {"Latitude_rad", type number}, {"Longitude_rad", type number}, {"Cluster_500m", Int64.Type}, {"Cluster_1000m", Int64.Type}, {"Cluster_2000m", Int64.Type}, {"Local_Moran_I", type number}, {"Local_Moran_p", type number}, {"Local_Moran_Significant", type logical}, {"Local_Moran_Outlier", type logical}, {"Getis_Ord_Gi", type number}, {"Getis_Ord_p", type number}, {"Getis_Ord_Significant", type logical}, {"Getis_Ord_HotSpot", type logical}, {"Getis_Ord_ColdSpot", type logical}, {"Isolation_Forest_Score", Int64.Type}, {"Isolation_Forest_Outlier", type logical}, {"Outlier_Score", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

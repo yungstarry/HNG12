@@ -1,0 +1,123 @@
+table top_5_outliers
+	lineageTag: 7c9f6f60-4d39-476b-ab3b-22071ff4ee44
+
+	column PU-Code
+		dataType: string
+		lineageTag: 6ea9274b-3ba6-4c52-910a-bdea7136b685
+		summarizeBy: none
+		sourceColumn: PU-Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column PU-Name
+		dataType: string
+		lineageTag: 22522f9b-4fb1-4e33-a2a3-fb9c98e500d1
+		summarizeBy: none
+		sourceColumn: PU-Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column LGA
+		dataType: string
+		lineageTag: 619dcb45-1506-492e-a528-0d39db8fd577
+		summarizeBy: none
+		sourceColumn: LGA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ward
+		dataType: string
+		lineageTag: 2a7d3930-b243-45aa-bf11-fc8242834380
+		summarizeBy: none
+		sourceColumn: Ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column APC
+		dataType: int64
+		formatString: 0
+		lineageTag: fe06c6b1-69a5-4378-aca6-cd2500d7b736
+		summarizeBy: sum
+		sourceColumn: APC
+
+		annotation SummarizationSetBy = Automatic
+
+	column PDP
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f57f842-94db-435f-ab2f-6f6aa8c8cb8f
+		summarizeBy: sum
+		sourceColumn: PDP
+
+		annotation SummarizationSetBy = Automatic
+
+	column LP
+		dataType: int64
+		formatString: 0
+		lineageTag: e1a61a45-9506-469e-8d3f-4dcf1ed4c5af
+		summarizeBy: sum
+		sourceColumn: LP
+
+		annotation SummarizationSetBy = Automatic
+
+	column NNPP
+		dataType: int64
+		formatString: 0
+		lineageTag: bc304aee-490d-49dc-8971-b0a9ff11a18e
+		summarizeBy: sum
+		sourceColumn: NNPP
+
+		annotation SummarizationSetBy = Automatic
+
+	column Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: 4279ece5-a6b0-48fa-9b5b-94ddad868996
+		summarizeBy: sum
+		sourceColumn: Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Local_Moran_I
+		dataType: double
+		lineageTag: 1aaa0dd4-d9e4-41ed-917b-40f85e8955f8
+		summarizeBy: sum
+		sourceColumn: Local_Moran_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Getis_Ord_Gi
+		dataType: double
+		lineageTag: b4226720-8de5-4d80-831e-6edd4d633c61
+		summarizeBy: sum
+		sourceColumn: Getis_Ord_Gi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Isolation_Forest_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: 44cc4883-6ed1-4ff6-be61-a12665014451
+		summarizeBy: sum
+		sourceColumn: Isolation_Forest_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	partition top_5_outliers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\HP\OneDrive\Desktop\HNG12\stage8\top_5_outliers.csv"),[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PU-Code", type text}, {"PU-Name", type text}, {"LGA", type text}, {"Ward", type text}, {"APC", Int64.Type}, {"PDP", Int64.Type}, {"LP", Int64.Type}, {"NNPP", Int64.Type}, {"Outlier_Score", Int64.Type}, {"Local_Moran_I", type number}, {"Getis_Ord_Gi", type number}, {"Isolation_Forest_Score", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,12 @@
+relationship AutoDetected_2c9fc46b-441b-404d-b127-1a1fc7f57be1
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: significant_outliers_by_party.PU-Code
+	toColumn: outlier_scores.PU-Code
+
+relationship 4057694f-1669-aea4-18bd-535c423c4972
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: combined_data_with_socio_pivoted.Year
+	toColumn: Dates.Date
+

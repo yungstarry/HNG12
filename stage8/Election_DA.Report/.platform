@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Election_DA"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5ff04f6c-0739-4db8-bcb8-8d186a9aa417"
+  }
+}

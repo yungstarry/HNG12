@@ -1,0 +1,194 @@
+table significant_outliers_by_party
+	lineageTag: 4a850577-76bd-476c-8edc-cd31118ef931
+
+	column State
+		dataType: string
+		lineageTag: 579e6474-9a54-4106-b29d-5762fa8cb097
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column LGA
+		dataType: string
+		lineageTag: 6a5ea74b-80e9-490c-b071-5781c3f1501b
+		summarizeBy: none
+		sourceColumn: LGA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ward
+		dataType: string
+		lineageTag: fc8d84f9-5b03-47b5-86f0-c912756c3ea5
+		summarizeBy: none
+		sourceColumn: Ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column PU-Code
+		dataType: string
+		lineageTag: dff1f462-37e4-436e-83a2-343ff94c6f67
+		summarizeBy: none
+		sourceColumn: PU-Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column PU-Name
+		dataType: string
+		lineageTag: 6924ddbe-7c80-47d6-b4ea-e115ba67cbfa
+		summarizeBy: none
+		sourceColumn: PU-Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column APC
+		dataType: int64
+		formatString: 0
+		lineageTag: fca288e0-43a0-4f54-a003-1c55156c5071
+		summarizeBy: sum
+		sourceColumn: APC
+
+		annotation SummarizationSetBy = Automatic
+
+	column PDP
+		dataType: int64
+		formatString: 0
+		lineageTag: e1026817-8bfa-407a-b816-5a6f38fabc92
+		summarizeBy: sum
+		sourceColumn: PDP
+
+		annotation SummarizationSetBy = Automatic
+
+	column LP
+		dataType: int64
+		formatString: 0
+		lineageTag: 099f4e75-67b2-4513-a2b7-9fdebdf9ffee
+		summarizeBy: sum
+		sourceColumn: LP
+
+		annotation SummarizationSetBy = Automatic
+
+	column NNPP
+		dataType: int64
+		formatString: 0
+		lineageTag: d55161df-8711-4373-a1e0-fa19cfec58dd
+		summarizeBy: sum
+		sourceColumn: NNPP
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: a6b2bc24-f5db-4028-893a-a4fad3c59445
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: d88be220-8da2-4a99-8ed4-3c346897ce5c
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column APC_Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: ff35df8f-56a6-4a47-84bc-5bc6ff291e5a
+		summarizeBy: sum
+		sourceColumn: APC_Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column PDP_Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: c98be245-5020-49b2-9513-7ae46e82ca58
+		summarizeBy: sum
+		sourceColumn: PDP_Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column LP_Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: b2c29779-360e-49e1-afdb-a2cf2af7b86c
+		summarizeBy: sum
+		sourceColumn: LP_Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column NNPP_Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: f9e622dc-ff09-424d-aacb-e527c74ca5fb
+		summarizeBy: sum
+		sourceColumn: NNPP_Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Max_Outlier_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: 462c7cc4-4692-4ba5-9ed7-562d80d101d4
+		summarizeBy: sum
+		sourceColumn: Max_Outlier_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_APC_Outlier = ```
+			
+			IF('significant_outliers_by_party'[APC_Outlier_Score] >= 2, "Yes", "No")
+			
+			```
+		lineageTag: 648bc29b-62f4-44c1-a292-e03d5878ec74
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_PDP_Outlier = IF('significant_outliers_by_party'[PDP_Outlier_Score] >= 2, "Yes", "No")
+		lineageTag: 2c61aff0-462d-4f3a-8829-5fff458de9bb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_NNPP_Outlier = IF('significant_outliers_by_party'[NNPP_Outlier_Score] >= 2, "Yes", "No")
+		lineageTag: 20465734-98f6-457b-ace3-b23fc126231a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_LP_Outlier = IF('significant_outliers_by_party'[LP_Outlier_Score] >= 2, "Yes", "No")
+		lineageTag: 9152ef5e-5738-4b82-9219-375dd0aec8d4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Outlier = IF('significant_outliers_by_party'[Max_Outlier_Score] >= 2, "Yes", "No")
+		lineageTag: 01e84682-bb07-47f8-afb3-cf18823ad3c7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition significant_outliers_by_party = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\HP\OneDrive\Desktop\HNG12\stage8\significant_outliers_by_party.csv"),[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"State", type text}, {"LGA", type text}, {"Ward", type text}, {"PU-Code", type text}, {"PU-Name", type text}, {"APC", Int64.Type}, {"PDP", Int64.Type}, {"LP", Int64.Type}, {"NNPP", Int64.Type}, {"Latitude", type number}, {"Longitude", type number}, {"APC_Outlier_Score", Int64.Type}, {"PDP_Outlier_Score", Int64.Type}, {"LP_Outlier_Score", Int64.Type}, {"NNPP_Outlier_Score", Int64.Type}, {"Max_Outlier_Score", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

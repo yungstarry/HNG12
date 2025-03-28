@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>task2.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #ff6905; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css" type="text/css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="invoice-based-dimensional-modelling-assignment">Invoice-Based Dimensional Modelling Assignment</h1>
+<p><code>Slack Id</code> <b>Adordev</b></p>
+<h2 id="overview">Overview</h2>
+<p>This assignment involves designing an end-to-end dimensional model for a mid-sized retail company based on a sample invoice dataset. Without explicit business requirements, we reverse-engineer the model from the data, focusing on dimensions like Customer, Product, Time, and Store. The solution supports analytical reporting, drill-down capabilities, historical tracking, and scalability, aligning with inferred objectives of analyzing sales trends, customer behavior, and store performance.</p>
+<hr>
+<h2 id="1-data-profiling--inference">1. Data Profiling &amp; Inference</h2>
+<h3 id="identifying-dimensions">Identifying Dimensions</h3>
+<p>Analyzing the sample invoice dataset reveals key business entities that can be modeled as dimensions:</p>
+<ul>
+<li><strong>Customer Dimension</strong>: Includes <code>Customer_ID</code> (e.g., C001) and <code>Customer_Name</code> (e.g., &quot;John Smith&quot;). This captures who is purchasing, enabling customer-centric analysis.</li>
+<li><strong>Product Dimension</strong>: Comprises <code>Product_ID</code> (e.g., P1001), <code>Product_Name</code> (e.g., &quot;Wireless Mouse&quot;), and <code>Unit_Price</code> (e.g., 25.00). This describes what is sold, critical for product performance insights.</li>
+<li><strong>Time Dimension</strong>: Derived from <code>Invoice_Date</code> (e.g., &quot;2025-03-15 09:15:00&quot;), with attributes like <code>Year</code>, <code>Month</code>, <code>Day</code>, and <code>Hour</code>. This supports temporal analysis of sales trends.</li>
+<li><strong>Store Dimension</strong>: Based on <code>Store_ID</code> (e.g., S01), representing sales locations for store-level reporting.</li>
+<li><strong>Invoice Dimension</strong>: <code>Invoice_ID</code> (e.g., INV001) acts as a degenerate dimension, a transactional identifier without additional attributes.</li>
+</ul>
+<p>These dimensions are inferred from the dataset’s structure, reflecting the retail context of sales transactions.</p>
+<h3 id="determining-fact-table-granularity">Determining Fact Table Granularity</h3>
+<p>The fact table granularity is set at the <strong>invoice line-item level</strong>, where each row represents a single product sold in a transaction (e.g., INV001 has two rows: one for &quot;Wireless Mouse,&quot; another for &quot;Mechanical Keyboard&quot;).</p>
+<h4 id="justification">Justification:</h4>
+<ol>
+<li><strong>Detailed Analysis</strong>: Enables queries like &quot;How many Wireless Mice did John Smith buy at S01?&quot; supporting fine-grained insights.</li>
+<li><strong>Aggregation</strong>: Allows summing <code>Line_Total</code> or <code>Quantity</code> across dimensions (e.g., total sales by store or product).</li>
+<li><strong>Drill-Down</strong>: Facilitates multi-level analysis, from yearly totals to hourly breakdowns, meeting the drill-down objective.</li>
+</ol>
+<p>This granularity ensures flexibility for both operational and strategic reporting.</p>
+<hr>
+<h2 id="2-dimensional-modeling-strategy">2. Dimensional Modeling Strategy</h2>
+<h3 id="star-schema-design">Star Schema Design</h3>
+<p>A star schema integrates the fact table with conformed dimensions for simplicity and query efficiency.</p>
+<h4 id="fact-table-salesfact">Fact Table: <code>Sales_Fact</code></h4>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Sales_Key</code> (PK)</td>
+<td>Surrogate key for uniqueness</td>
+</tr>
+<tr>
+<td><code>Customer_Key</code> (FK)</td>
+<td>Links to <code>Customer_Dim</code></td>
+</tr>
+<tr>
+<td><code>Product_Key</code> (FK)</td>
+<td>Links to <code>Product_Dim</code></td>
+</tr>
+<tr>
+<td><code>Store_Key</code> (FK)</td>
+<td>Links to <code>Store_Dim</code></td>
+</tr>
+<tr>
+<td><code>Time_Key</code> (FK)</td>
+<td>Links to <code>Time_Dim</code></td>
+</tr>
+<tr>
+<td><code>Invoice_ID</code> (Degenerate)</td>
+<td>Transaction identifier (e.g., INV001)</td>
+</tr>
+<tr>
+<td><code>Quantity</code></td>
+<td>Units sold (e.g., 2)</td>
+</tr>
+<tr>
+<td><code>Line_Total</code></td>
+<td>Revenue per line item (e.g., 50.00)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="dimension-tables">Dimension Tables:</h4>
+<ol>
+<li>
+<p><strong>Customer_Dim</strong></p>
+<ul>
+<li><code>Customer_Key</code> (PK)</li>
+<li><code>Customer_ID</code> (e.g., C001)</li>
+<li><code>Customer_Name</code> (e.g., &quot;John Smith&quot;)</li>
+<li><code>Start_Date</code>, <code>End_Date</code> (for SCD)</li>
+</ul>
+</li>
+<li>
+<p><strong>Product_Dim</strong></p>
+<ul>
+<li><code>Product_Key</code> (PK)</li>
+<li><code>Product_ID</code> (e.g., P1001)</li>
+<li><code>Product_Name</code> (e.g., &quot;Wireless Mouse&quot;)</li>
+<li><code>Unit_Price</code> (e.g., 25.00)</li>
+<li><code>Effective_Start_Date</code>, <code>Effective_End_Date</code> (for SCD)</li>
+</ul>
+</li>
+<li>
+<p><strong>Store_Dim</strong></p>
+<ul>
+<li><code>Store_Key</code> (PK)</li>
+<li><code>Store_ID</code> (e.g., S01)</li>
+<li><code>Store_Name</code> (assumed, e.g., &quot;Downtown&quot;)</li>
+</ul>
+</li>
+<li>
+<p><strong>Time_Dim</strong></p>
+<ul>
+<li><code>Time_Key</code> (PK, e.g., 202503150915)</li>
+<li><code>Date</code> (e.g., &quot;2025-03-15&quot;)</li>
+<li><code>Year</code>, <code>Month</code>, <code>Day</code>, <code>Hour</code> (e.g., 2025, &quot;March&quot;, 15, 09)</li>
+</ul>
+</li>
+</ol>
+<h3 id="handling-degenerate-dimensions">Handling Degenerate Dimensions</h3>
+<p><code>Invoice_ID</code> is a degenerate dimension, stored directly in <code>Sales_Fact</code> rather than a separate table. This simplifies the schema while allowing grouping by invoice (e.g., total revenue for INV001), aligning with reporting needs without adding complexity.</p>
+<h3 id="dimensional-model-diagram">Dimensional Model Diagram</h3>
+<p><img src="DB.png" alt="Dimensional Model Diagram"></p>
+<hr>
+<h2 id="3-slowly-changing-dimensions-scd">3. Slowly Changing Dimensions (SCD)</h2>
+<h3 id="scd-implementation">SCD Implementation</h3>
+<p>Attributes like <code>Unit_Price</code> (in <code>Product_Dim</code>) and <code>Customer_Name</code> (in <code>Customer_Dim</code>) may change over time, requiring an SCD strategy.</p>
+<ul>
+<li><strong>Product_Dim</strong>: Use <strong>SCD Type 2</strong> for <code>Unit_Price</code>. Add <code>Effective_Start_Date</code>, <code>Effective_End_Date</code>, and a new row for each price change (e.g., &quot;Wireless Mouse&quot; from 25.00 to 30.00 on 2025-04-01).</li>
+<li><strong>Customer_Dim</strong>: Apply <strong>SCD Type 2</strong> for <code>Customer_Name</code> changes (e.g., &quot;John Smith&quot; to &quot;John A. Smith&quot;), tracking historical purchases.</li>
+<li><strong>Store_Dim</strong>: Use <strong>SCD Type 1</strong> for <code>Store_Name</code>, overwriting updates as location history is less critical.</li>
+</ul>
+<h4 id="trade-offs">Trade-Offs:</h4>
+<ul>
+<li><strong>Type 2</strong>: Preserves history (benefit) but increases storage and complexity (cost).</li>
+<li><strong>Type 1</strong>: Simplifies maintenance (benefit) but loses historical data (cost).</li>
+<li><strong>Type 3</strong>: Tracks one prior value but is impractical for frequent changes.</li>
+</ul>
+<p>SCD Type 2 is chosen for <code>Product_Dim</code> and <code>Customer_Dim</code> to support historical tracking, aligning with forecasting needs.</p>
+<hr>
+<h2 id="4-etlelt-strategy">4. ETL/ELT Strategy</h2>
+<h3 id="data-integration">Data Integration</h3>
+<ul>
+<li><strong>Batch Processing</strong>: Extract daily invoice data (e.g., from a POS system CSV) and-
+<ul>
+<li>Extract daily invoice data (e.g., from a POS system CSV) nightly, transform, and load into the data warehouse.</li>
+</ul>
+</li>
+<li><strong>Incremental Updates</strong>: Process only new/changed records based on <code>Invoice_Date</code> (e.g., &gt; last load date), reducing overhead.</li>
+</ul>
+<h3 id="data-quality--consistency">Data Quality &amp; Consistency</h3>
+<ol>
+<li><strong>Surrogate Keys</strong>: Generate <code>Customer_Key</code>, <code>Product_Key</code>, etc., for performance and SCD support.</li>
+<li><strong>Cleansing</strong>: Standardize <code>Customer_Name</code> (e.g., &quot;John Smith&quot; vs. &quot;john smith&quot;) and validate <code>Line_Total</code>.</li>
+<li><strong>Integrity</strong>: Ensure foreign keys match dimension tables.</li>
+<li><strong>Deduplication</strong>: Remove duplicate <code>Invoice_ID</code> + line item entries.</li>
+</ol>
+<h4 id="etl-process-flow">ETL Process Flow</h4>
+<pre class="hljs"><code><div>[Invoice CSV] --&gt; [Extract: Load Rows] --&gt; [Stage: Validate Line_Total, Dedupe]
+    |
+    v
+[Transform: Parse Invoice_Date, SCD Type 2, Assign Keys] --&gt; [Load: Dimensions → Sales_Fact]
+</div></code></pre>
+<hr>
+<h2 id="5-advanced-analysis--scalability">5. Advanced Analysis &amp; Scalability</h2>
+<h3 id="hierarchical-relationships">Hierarchical Relationships</h3>
+<ul>
+<li><strong>Time</strong>: <code>Year → Month → Day → Hour</code> (e.g., 2025 → March → 15 → 09).</li>
+<li><strong>Product</strong>: Future <code>Category → Product_Name</code> (e.g., &quot;Electronics → Wireless Mouse&quot;).</li>
+<li><strong>Store</strong>: Potential <code>Region → Store_ID</code> (e.g., &quot;East → S01&quot;).</li>
+</ul>
+<h3 id="performance-optimization">Performance Optimization</h3>
+<ol>
+<li><strong>Partitioning</strong>: Split <code>Sales_Fact</code> by <code>Time_Key</code> (e.g., monthly) for faster queries.</li>
+<li><strong>Indexing</strong>: Index foreign keys (<code>Customer_Key</code>, etc.) and composite keys (e.g., <code>Store_ID</code> + <code>Time_Key</code>).</li>
+<li><strong>Surrogate Keys</strong>: Enhance join performance and SCD management.</li>
+</ol>
+<hr>
+<h2 id="assumptions--trade-offs">Assumptions &amp; Trade-Offs</h2>
+<ul>
+<li><strong>Assumptions</strong>: No returns/refunds, <code>Store_Name</code> exists in a master list.</li>
+<li><strong>Trade-Offs</strong>: SCD Type 2 increases storage but ensures history; line-item granularity adds detail but requires more space.</li>
+</ul>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>This model delivers:</p>
+<ul>
+<li><strong>Analytical Reporting</strong>: Sales trends via <code>Line_Total</code> aggregations.</li>
+<li><strong>Drill-Down</strong>: Hierarchies enable multi-level analysis.</li>
+<li><strong>Historical Tracking</strong>: SCD Type 2 preserves past data.</li>
+<li><strong>Scalability</strong>: Partitioning and indexing ensure performance.</li>
+</ul>
+<p>It meets all business objectives with a robust, scalable design.</p>
+<hr>
+
+</body>
+</html>

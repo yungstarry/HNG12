@@ -1,0 +1,150 @@
+table combined_data_with_socio_pivoted
+	lineageTag: aa968a69-4e3f-4bcb-a537-63c2624b4782
+
+	column State
+		dataType: string
+		lineageTag: 426b1b1b-35b6-457a-9ed2-cdf8663163ab
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 220dd455-a5e5-4ee8-9145-a27d6ae69ff4
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column APC_Percent
+		dataType: double
+		lineageTag: 11cc0b5d-0b43-46d5-ad1c-2820f5a59848
+		summarizeBy: sum
+		sourceColumn: APC_Percent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PDP_Percent
+		dataType: double
+		lineageTag: 68fc900f-ba96-44e8-aa0b-e789591859c4
+		summarizeBy: sum
+		sourceColumn: PDP_Percent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LP_Percent
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 10ca51f9-9dc8-409f-9959-b444b034c35e
+		summarizeBy: sum
+		sourceColumn: LP_Percent
+
+		annotation SummarizationSetBy = Automatic
+
+	column NNPP_Percent
+		dataType: double
+		lineageTag: dcee3e08-f364-4282-a8a9-2fe903fbc7e8
+		summarizeBy: sum
+		sourceColumn: NNPP_Percent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column APC_Votes
+		dataType: int64
+		formatString: 0
+		lineageTag: 034913e5-ed05-4ac9-ac03-11067453bc9b
+		summarizeBy: sum
+		sourceColumn: APC_Votes
+
+		annotation SummarizationSetBy = Automatic
+
+	column PDP_Votes
+		dataType: int64
+		formatString: 0
+		lineageTag: 4492d730-cbf7-4795-979f-bcf8b450074a
+		summarizeBy: sum
+		sourceColumn: PDP_Votes
+
+		annotation SummarizationSetBy = Automatic
+
+	column LP_Votes
+		dataType: int64
+		formatString: 0
+		lineageTag: 207a6e10-06d8-48c3-87c9-f354b9c5ae00
+		summarizeBy: sum
+		sourceColumn: LP_Votes
+
+		annotation SummarizationSetBy = Automatic
+
+	column NNPP_Votes
+		dataType: int64
+		formatString: 0
+		lineageTag: e64b6432-f745-4883-9525-2dccbc74ee5a
+		summarizeBy: sum
+		sourceColumn: NNPP_Votes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Poverty_Rate
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f3ccc9b1-f2df-41d1-baab-84ab1a60e6a2
+		summarizeBy: sum
+		sourceColumn: Poverty_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Literacy_Rate
+		dataType: double
+		lineageTag: 224cdbfb-ade6-48c5-8478-260547354fd6
+		summarizeBy: sum
+		sourceColumn: Literacy_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Urbanization_Rate
+		dataType: double
+		lineageTag: 91c76982-ab3a-4b7d-884a-bfcb4d862aba
+		summarizeBy: sum
+		sourceColumn: Urbanization_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Youth_Population_Percent
+		dataType: double
+		lineageTag: 5d11b3df-97dc-4f46-be6d-3b728f870baf
+		summarizeBy: sum
+		sourceColumn: Youth_Population_Percent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition combined_data_with_socio_pivoted = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\HP\OneDrive\Desktop\HNG12\stage8\combined_data_with_socio_pivoted.csv"),[Delimiter=",", Columns=14, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"State", type text}, {"Year", type date}, {"APC_Percent", type number}, {"PDP_Percent", type number}, {"LP_Percent", type number}, {"NNPP_Percent", type number}, {"APC_Votes", Int64.Type}, {"PDP_Votes", Int64.Type}, {"LP_Votes", Int64.Type}, {"NNPP_Votes", Int64.Type}, {"Poverty_Rate", type number}, {"Literacy_Rate", type number}, {"Urbanization_Rate", type number}, {"Youth_Population_Percent", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

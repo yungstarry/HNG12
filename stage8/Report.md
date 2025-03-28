@@ -1,274 +1,409 @@
-# Advanced Outlier Detection Report
 
-## Methodology
+---
+
+# Enhanced Case Study: Advanced Geospatial Analysis for Election Integrity
 
-This analysis employs a multi-faceted approach to detect outliers in the 2023 election data for Osun State, combining geospatial clustering, statistical methods, machine learning validation, and demographic integration. Each method contributes to a composite outlier score, which is used to identify polling units with anomalous voting patterns. Below is a detailed explanation of each methodology.
-
-### 1. Geospatial Clustering with DBSCAN
-
-**Purpose**: To identify spatial clusters of polling units and detect outliers that do not belong to any cluster, which may indicate isolated anomalies in voting patterns.
-
-**Method**: We used the Density-Based Spatial Clustering of Applications with Noise (DBSCAN) algorithm, which groups polling units based on their geographic proximity. DBSCAN requires two parameters:
-- **Epsilon (eps)**: The maximum distance between two polling units to be considered part of the same cluster. We tested three radii: 500m, 1000m, and 2000m, to explore clustering at different scales.
-- **Minimum Points (min_samples)**: The minimum number of polling units required to form a cluster. We set this to 5, ensuring clusters are meaningful.
-
-**Implementation**:
-- Polling unit coordinates (`Latitude`, `Longitude`) were used to compute pairwise distances using the Haversine formula, which accounts for the Earth's curvature.
-- DBSCAN was applied at each radius, labeling polling units as either part of a cluster or as outliers (noise points).
-- Results showed that at a 500m radius, 41.24% of polling units were outliers, decreasing to 12.46% at 2000m, indicating that smaller radii are more sensitive to isolated polling units.
-
-**Rationale**: DBSCAN was chosen because it does not require specifying the number of clusters in advance (unlike K-means) and can identify outliers naturally. The varying radii allowed us to assess the robustness of clustering and outlier detection across different spatial scales.
-
-### 2. Statistical Methods: Local Moran's I and Getis-Ord Gi*
-
-**Purpose**: To detect spatial autocorrelation and identify hot spots (high vote concentrations) and cold spots (low vote concentrations) in voting patterns for each party (APC, PDP, LP, NNPP).
-
-**Methods**:
-- **Local Moran's I**: Measures spatial autocorrelation for each polling unit, identifying whether a polling unit's vote count for a party is similar to or different from its neighbors. A negative Local Moran's I value with a p-value < 0.05 indicates a spatial outlier (e.g., a polling unit with high votes surrounded by low-vote neighbors).
-- **Getis-Ord Gi***: Identifies hot spots (clusters of high vote counts) and cold spots (clusters of low vote counts). A positive Gi* value with a p-value < 0.05 indicates a hot spot, while a negative value indicates a cold spot.
-
-**Implementation**:
-- A spatial weights matrix was created using the k-nearest neighbors (k=5) approach, where each polling unit is connected to its 5 nearest neighbors based on geographic distance.
-- Local Moran's I and Getis-Ord Gi* were calculated for each party's votes (APC, PDP, LP, NNPP) using the `esda` library in Python.
-- Polling units were flagged as significant if their p-values were < 0.05, indicating statistically significant spatial patterns.
-
-**Rationale**: These methods were chosen because they provide complementary insights into spatial patterns. Local Moran's I detects individual polling units that deviate from their neighbors, while Getis-Ord Gi* identifies broader clusters of high or low voting activity, which may indicate coordinated anomalies.
-
-### 3. Machine Learning Validation with Isolation Forest
-
-**Purpose**: To detect anomalies in voting patterns using a machine learning approach, focusing on vote counts and voter turnout metrics.
-
-**Method**: Isolation Forest is an unsupervised anomaly detection algorithm that isolates observations by randomly selecting features and splitting values. Anomalies are identified as observations that require fewer splits to isolate.
-
-**Implementation**:
-- Features used: Each party's votes (e.g., `APC`, `PDP`, `LP`, `NNPP`), `Accredited_Voters`, and `Registered_Voters`.
-- The Isolation Forest algorithm was applied with a contamination parameter of 0.1, meaning we expect 10% of polling units to be outliers.
-- Polling units were flagged as outliers if their Isolation Forest score was -1.
-
-**Rationale**: Isolation Forest was chosen because it is effective for high-dimensional data and does not assume a specific distribution for the data. Including `Accredited_Voters` and `Registered_Voters` alongside vote counts allowed us to detect anomalies in turnout as well as voting patterns, providing a more comprehensive outlier detection.
-
-### 4. Demographic Integration
-
-**Purpose**: To contextualize voting patterns and outliers by integrating socio-economic and demographic data, which may explain anomalies.
-
-**Implementation**:
-- State-level socio-economic data for Osun State was sourced, including poverty rate (%), literacy rate (%), urbanization rate (%), and youth population (%).
-- This data was merged with historical election data (2015, 2019, 2023) to create a combined dataset (`combined_data_with_socio`).
-- The demographic data was used to analyze historical trends and correlate voting patterns with socio-economic factors. For example, the rise in LP votes in 2023 was correlated with a high youth population, as LP's candidate, Peter Obi, had strong youth appeal.
-
-**Rationale**: Demographic integration provides a deeper understanding of voting behavior. For instance, high poverty rates might correlate with voter apathy (low turnout), while a high youth population might explain increased support for LP in 2023.
-
-### 5. Composite Outlier Score Calculation
-
-**Purpose**: To combine the results of the above methods into a single metric for identifying significant outliers.
-
-**Implementation**:
-- For each party (APC, PDP, LP, NNPP), a party-specific outlier score was calculated by summing binary indicators from each method:
-  - Local Moran's I: 1 if the polling unit is a significant spatial outlier (p < 0.05 and negative Moran's I), 0 otherwise.
-  - Getis-Ord Gi*: 1 if the polling unit is a significant hot spot or cold spot (p < 0.05), 0 otherwise.
-  - Isolation Forest: 1 if the polling unit is flagged as an outlier, 0 otherwise.
-- The party-specific outlier score (e.g., `APC_Outlier_Score`) ranges from 0 to 3, with higher scores indicating more significant outliers.
-- A general `Outlier_Score` was also calculated using the same approach but applied to a combined set of features (PDP, APC, Accredited_Voters, Registered_Voters).
-
-**Rationale**: The composite score ensures that polling units flagged by multiple methods are prioritized, increasing confidence in the outlier detection. Party-specific scores allow us to identify anomalies specific to each party's voting patterns.
-
-
-
-
-## Identification and Justification of Top 5 Outlier Polling Units
-
-The following polling units were identified as the top 5 outliers based on their composite `Outlier_Score`, which ranges from 0 to 3 and is calculated by combining results from Local Moran's I, Getis-Ord Gi*, and Isolation Forest. A polling unit is considered a significant outlier if it is flagged by at least two methods (i.e., `Outlier_Score` >= 2). We further filtered for polling units with significant Local Moran's I (p < 0.05) to ensure spatial relevance and sorted by `Outlier_Score` in descending order.
-
-### 1. Polling Unit: HOLY SAVIOUR'S PRY. SCHOOL, OKE TUBU (Ife East LGA, Modakeke II Ward)
-- **PU-Code**: 29-13-09-004
-- **Votes**: APC: 279, PDP: 120, LP: 31, NNPP: 0
-- **Outlier Metrics**:
-  - `Outlier_Score`: 3 (flagged by all three methods).
-  - Local Moran's I: -0.424342 (p < 0.05), indicating a significant spatial outlier. The negative value suggests this polling unit's voting pattern differs from its neighbors (e.g., high APC votes in an area with lower APC support).
-  - Getis-Ord Gi*: 0.228936 (p < 0.05), indicating a hot spot of voting activity, likely due to the high APC vote count.
-  - Isolation Forest: -1 (outlier), likely due to the unusually high APC votes (279) compared to the state average.
-- **Voting Patterns**:
-  - Total votes: 279 + 120 + 31 = 430.
-  - APC: 279 votes (64.9% of total votes in this polling unit), significantly higher than the state average of 48.03% for APC in 2023.
-  - PDP: 120 votes (27.9%), lower than the state average of 48.47%.
-  - LP: 31 votes (7.2%), higher than the state average of 3.29%, indicating notable support for LP.
-- **Justification**: This polling unit is a significant outlier due to its high APC vote count, which deviates from both its spatial neighbors (negative Local Moran's I) and the state average. The hot spot (Getis-Ord Gi*) suggests localized high voting activity, and the Isolation Forest flag indicates an anomaly in the vote distribution. The above-average LP votes also suggest a shift in voter preference, possibly due to demographic factors.
-
-### 2. Polling Unit: ODE-OKE (Ede South LGA, Alajue I Ward)
-- **PU-Code**: 29-08-04-006
-- **Votes**: APC: 113, PDP: 0, LP: 3, NNPP: 207
-- **Outlier Metrics**:
-  - `Outlier_Score`: 3 (flagged by all three methods).
-  - Local Moran's I: -0.037318 (p < 0.05), indicating a spatial outlier. The negative value suggests this polling unit's voting pattern differs from its neighbors.
-  - Getis-Ord Gi*: -0.025296 (p < 0.05), indicating a cold spot, likely due to the absence of PDP votes.
-  - Isolation Forest: -1 (outlier), likely due to the unusually high NNPP votes (207) and zero PDP votes.
-- **Voting Patterns**:
-  - Total votes: 113 + 0 + 3 + 207 = 323.
-  - APC: 113 votes (35.0%), below the state average of 48.03%.
-  - PDP: 0 votes (0%), significantly below the state average of 48.47%.
-  - NNPP: 207 votes (64.1%), drastically higher than the state average of 0.21%.
-- **Justification**: This polling unit stands out due to its complete lack of PDP votes and an unusually high NNPP vote count, which is highly anomalous given NNPP's minimal presence in Osun State (0.21% state average). The spatial outlier status (Local Moran's I) and cold spot (Getis-Ord Gi*) suggest this polling unit deviates from its neighbors, and the Isolation Forest flag confirms the anomaly in vote distribution.
-
-### 3. Polling Unit: BABA ODUNAYO (Irepodun LGA, Bara 'B' Ward)
-- **PU-Code**: 29-20-06-008
-- **Votes**: APC: 0, PDP: 0, LP: 0, NNPP: 0
-- **Outlier Metrics**:
-  - `Outlier_Score`: 3 (flagged by all three methods).
-  - Local Moran's I: 0.001931 (p < 0.05), indicating a spatial outlier.
-  - Getis-Ord Gi*: 0.165712 (p < 0.05), indicating a hot spot, though this may be an artifact of zero votes in a region with some voting activity.
-  - Isolation Forest: -1 (outlier), due to zero votes across all parties.
-- **Voting Patterns**:
-  - Total votes: 0.
-  - All parties: 0 votes, compared to state averages (APC: 48.03%, PDP: 48.47%, LP: 3.29%, NNPP: 0.21%).
-- **Justification**: This polling unit is an outlier due to its complete lack of votes, which is highly unusual in an election context. The spatial outlier status (Local Moran's I) indicates it differs from its neighbors, which likely recorded some votes. The Isolation Forest flag confirms the anomaly, as zero votes across all parties is a significant deviation from expected voting patterns.
-
-### 4. Polling Unit: OPEN SPACE INFRONT OF OSUN STATE GOVT. REVENUE... (Atakumosa East LGA, Iwara Ward)
-- **PU-Code**: 29-01-01-009
-- **Votes**: APC: 17, PDP: 34, LP: 0, NNPP: 0
-- **Outlier Metrics**:
-  - `Outlier_Score`: 3 (flagged by all three methods).
-  - Local Moran's I: 0.364130 (p < 0.05), indicating a spatial outlier.
-  - Getis-Ord Gi*: 0.342869 (p < 0.05), indicating a hot spot.
-  - Isolation Forest: -1 (outlier), likely due to low total votes.
-- **Voting Patterns**:
-  - Total votes: 17 + 34 = 51.
-  - APC: 17 votes (33.3%), below the state average of 48.03%.
-  - PDP: 34 votes (66.7%), above the state average of 48.47%.
-- **Justification**: This polling unit is an outlier due to its low total votes (51) and a higher-than-average PDP vote share. The spatial outlier status (Local Moran's I) and hot spot (Getis-Ord Gi*) suggest it differs from its neighbors, possibly indicating a small, localized voting pattern. The Isolation Forest flag confirms the anomaly in the low vote count.
-
-### 5. Polling Unit: OPEN SPACE OLOSUN COMP. EDE (Ede North LGA, Asunmo Ward)
-- **PU-Code**: 29-07-10-003
-- **Votes**: APC: 108, PDP: 0, LP: 6, NNPP: 0
-- **Outlier Metrics**:
-  - `Outlier_Score`: 3 (flagged by all three methods).
-  - Local Moran's I: 0.199370 (p < 0.05), indicating a spatial outlier.
-  - Getis-Ord Gi*: 0.170041 (p < 0.05), indicating a hot spot.
-  - Isolation Forest: -1 (outlier), likely due to zero PDP votes.
-- **Voting Patterns**:
-  - Total votes: 108 + 0 + 6 = 114.
-  - APC: 108 votes (94.7%), significantly higher than the state average of 48.03%.
-  - PDP: 0 votes (0%), significantly below the state average of 48.47%.
-  - LP: 6 votes (5.3%), above the state average of 3.29%.
-- **Justification**: This polling unit is an outlier due to its extremely high APC vote share and complete lack of PDP votes. The spatial outlier status (Local Moran's I) and hot spot (Getis-Ord Gi*) suggest a localized anomaly, and the Isolation Forest flag confirms the unusual vote distribution.
-
-
-
-## Historical Comparisons for Top 5 Outlier Polling Units
-
-Since polling unit-level historical data for 2015 and 2019 is unavailable, we compare the 2023 voting patterns of the top 5 outliers to state-level historical trends for Osun State. The state-level vote shares are as follows:
-- 2015: APC: 59.69%, PDP: 38.89%, LP: 0%, NNPP: 0%
-- 2019: APC: 48.64%, PDP: 47.21%, LP: 0%, NNPP: 0%
-- 2023: APC: 48.03%, PDP: 48.47%, LP: 3.29%, NNPP: 0.21%
-
-### 1. HOLY SAVIOUR'S PRY. SCHOOL, OKE TUBU
-- **2023 Votes**: APC: 279 (64.9%), PDP: 120 (27.9%), LP: 31 (7.2%), NNPP: 0 (0%).
-- **Comparison**:
-  - APC: 64.9% is higher than the 2023 state average (48.03%) and the 2015 peak (59.69%), suggesting unusually strong APC support.
-  - PDP: 27.9% is below the 2023 state average (48.47%) and the 2019 peak (47.21%), indicating a decline in PDP support.
-  - LP: 7.2% is significantly higher than the 2023 state average (3.29%) and the 0% in 2015/2019, reflecting LP's national rise in 2023.
-  - NNPP: 0% aligns with its minimal historical presence.
-
-### 2. ODE-OKE
-- **2023 Votes**: APC: 113 (35.0%), PDP: 0 (0%), LP: 3 (0.9%), NNPP: 207 (64.1%).
-- **Comparison**:
-  - APC: 35.0% is below the 2023 state average (48.03%) and historical averages, indicating weaker APC support.
-  - PDP: 0% is drastically below the 2023 state average (48.47%) and historical averages, suggesting a complete loss of PDP support.
-  - LP: 0.9% is below the 2023 state average (3.29%), showing minimal LP presence.
-  - NNPP: 64.1% is an extreme outlier compared to the 2023 state average (0.21%) and 0% in 2015/2019, indicating a significant anomaly.
-
-### 3. BABA ODUNAYO
-- **2023 Votes**: APC: 0 (0%), PDP: 0 (0%), LP: 0 (0%), NNPP: 0 (0%).
-- **Comparison**:
-  - All parties: 0% votes compared to state averages (APC: 48.03%, PDP: 48.47%, LP: 3.29%, NNPP: 0.21%) and historical trends, indicating a complete lack of voting activity, which is highly unusual.
-
-### 4. OPEN SPACE INFRONT OF OSUN STATE GOVT. REVENUE...
-- **2023 Votes**: APC: 17 (33.3%), PDP: 34 (66.7%), LP: 0 (0%), NNPP: 0 (0%).
-- **Comparison**:
-  - APC: 33.3% is below the 2023 state average (48.03%) and historical averages, showing weaker APC support.
-  - PDP: 66.7% is higher than the 2023 state average (48.47%) and historical averages, indicating strong PDP support.
-  - LP and NNPP: 0% aligns with their minimal historical presence in 2015/2019, though LP's 2023 state average (3.29%) suggests missed opportunity.
-
-### 5. OPEN SPACE OLOSUN COMP. EDE
-- **2023 Votes**: APC: 108 (94.7%), PDP: 0 (0%), LP: 6 (5.3%), NNPP: 0 (0%).
-- **Comparison**:
-  - APC: 94.7% is significantly higher than the 2023 state average (48.03%) and the 2015 peak (59.69%), indicating an extreme concentration of APC support.
-  - PDP: 0% is well below the 2023 state average (48.47%) and historical averages, showing a complete absence of PDP votes.
-  - LP: 5.3% is above the 2023 state average (3.29%), reflecting LP's rise.
-  - NNPP: 0% aligns with its minimal historical presence.
-
-
-  ## Hypotheses on Potential Reasons for Anomalies
-
-### 1. HOLY SAVIOUR'S PRY. SCHOOL, OKE TUBU
-- **Anomaly**: High APC votes (64.9%) and above-average LP votes (7.2%).
-- **Hypothesis**:
-  - The high APC vote share may indicate strong local loyalty to APC, possibly due to historical party dominance in Ife East LGA or influence from local leaders.
-  - The above-average LP votes could be driven by a high youth population (42.3% in Osun State), as LP's candidate, Peter Obi, had strong appeal among younger voters in 2023.
-  - The polling unit's location in Modakeke II, a potentially urbanized area (state urbanization rate: 47.8%), may have facilitated better voter mobilization for both APC and LP.
-
-### 2. ODE-OKE
-- **Anomaly**: Zero PDP votes and extremely high NNPP votes (64.1%).
-- **Hypothesis**:
-  - The complete absence of PDP votes suggests possible voter suppression, intimidation, or logistical issues (e.g., PDP agents not present at the polling unit).
-  - The high NNPP votes are highly unusual given NNPP's minimal presence in Osun State (0.21% state average). This could indicate vote inflation or manipulation, possibly due to low oversight in Ede South LGA.
-  - The high poverty rate (26.1%) in Osun State might have made voters in this area more susceptible to vote-buying, potentially benefiting NNPP.
-
-### 3. BABA ODUNAYO
-- **Anomaly**: Zero votes for all parties.
-- **Hypothesis**:
-  - The complete lack of votes likely indicates logistical failures, such as the polling unit not opening on election day, missing ballot materials, or voter intimidation preventing turnout.
-  - Irepodun LGA may have faced accessibility issues, especially if this polling unit is in a rural area (state urbanization rate: 47.8%, suggesting over half the state is rural).
-  - The high poverty rate (26.1%) and moderate literacy rate (67.5%) might have contributed to voter apathy, though this doesn’t fully explain zero turnout.
-
-### 4. OPEN SPACE INFRONT OF OSUN STATE GOVT. REVENUE...
-- **Anomaly**: Low total votes (51) and high PDP vote share (66.7%).
-- **Hypothesis**:
-  - The low total votes suggest low turnout, possibly due to voter apathy, logistical issues, or a small voter population in this polling unit.
-  - The high PDP vote share may reflect historical PDP loyalty in Atakumosa East LGA, as PDP had a strong presence in Osun State in 2015 (38.89%) and 2019 (47.21%).
-  - The moderate literacy rate (67.5%) might have limited voter awareness or engagement, contributing to the low turnout.
-
-### 5. OPEN SPACE OLOSUN COMP. EDE
-- **Anomaly**: Extremely high APC vote share (94.7%) and zero PDP votes.
-- **Hypothesis**:
-  - The high APC vote share suggests potential vote inflation or manipulation, as it far exceeds the state average (48.03%) and historical peaks (59.69% in 2015).
-  - The absence of PDP votes could indicate voter suppression or intimidation, preventing PDP supporters from voting.
-  - Ede North LGA may have strong APC influence, possibly due to local political dynamics or party agents exerting control at this polling unit.
-
-## Recommendations for Election Authorities
-
-Based on the analysis of the top 5 outlier polling units, the following recommendations are proposed for election authorities to improve the integrity and fairness of future elections in Osun State:
-
-1. **Investigate Polling Units with Extreme Vote Distributions**:
-   - Conduct a thorough investigation into polling units like ODE-OKE (high NNPP votes, zero PDP votes) and OPEN SPACE OLOSUN COMP. EDE (94.7% APC votes, zero PDP votes) for potential vote inflation, manipulation, or voter suppression.
-   - Deploy independent observers to these polling units in future elections to ensure transparency.
-
-2. **Address Logistical Failures**:
-   - Investigate the reasons for zero turnout at BABA ODUNAYO and similar polling units. Ensure that all polling units are operational on election day, with adequate ballot materials and security.
-   - Improve accessibility in rural areas (e.g., Irepodun LGA) by providing transportation or mobile voting units, especially given the state’s urbanization rate (47.8%).
-
-3. **Enhance Voter Education and Engagement**:
-   - Increase voter education campaigns in areas with low turnout, such as OPEN SPACE INFRONT OF OSUN STATE GOVT. REVENUE..., to combat voter apathy. Focus on areas with moderate literacy rates (67.5%) to ensure voters understand the process.
-   - Target youth populations (42.3% in Osun State) with campaigns to sustain their engagement, as seen with LP’s rise in areas like HOLY SAVIOUR'S PRY. SCHOOL, OKE TUBU.
-
-4. **Monitor Areas with Emerging Party Support**:
-   - Monitor polling units with high LP votes (e.g., HOLY SAVIOUR'S PRY. SCHOOL, OKE TUBU) in future elections, as LP’s rise in 2023 indicates shifting voter preferences, particularly among the youth.
-   - Ensure balanced representation of party agents at these polling units to prevent dominance by any single party.
-
-5. **Combat Socio-Economic Vulnerabilities**:
-   - Address the high poverty rate (26.1%) in Osun State, which may make voters susceptible to vote-buying (e.g., potentially in ODE-OKE). Implement stricter monitoring of financial transactions around polling units on election day.
-   - Provide economic support programs to reduce poverty, which could decrease voter apathy and improve turnout.
-
-
-   ## Interactive Dashboard
-
-The interactive visualization dashboard is available at the following link:
-
-[Osun State 2023 Election Outlier Analysis Dashboard](<insert-your-power-bi-link-here>)
-
-Stakeholders can explore the dashboard to view:
-- A map of polling units with the top 5 outliers highlighted.
-- Bar charts comparing vote shares of the top 5 outliers to state averages.
-- Historical trends of vote shares from 2015 to 2023.
-- Spatial clusters and hot/cold spots.
-- Detailed tables of outlier polling units.
-
+``` 
+Prepared by  Adordev
+```
+
+## Introduction
+
+This project was undertaken to assist the Independent National Electoral Commission (INEC) in identifying potential electoral irregularities in the recently concluded election in Osun State, Nigeria. The goal was to detect outlier polling units where voting patterns significantly deviate from expected patterns or neighboring units, which could indicate manipulation or irregularities. The analysis leverages advanced geospatial techniques, statistical methods, machine learning, temporal comparisons, and demographic data to provide a comprehensive assessment of election integrity.
+
+The project follows five key objectives:
+1. **Enhanced Dataset Preparation**: Clean and geocode the election dataset.
+2. **Advanced Neighbor Identification**: Use geospatial clustering to identify polling unit clusters.
+3. **Sophisticated Outlier Score Calculation**: Calculate outlier scores using spatial statistics and machine learning.
+4. **Temporal and Demographic Comparative Analysis**: Analyze historical trends and demographic correlations.
+5. **Interactive Visualization and Reporting**: Develop an interactive dashboard to visualize findings.
+
+This documentation details the methodologies, results,  with references to images for visual representation.
+
+---
+
+## 1. Enhanced Dataset Preparation
+
+### Objective
+The first objective was to prepare a fully geocoded and cleaned dataset for Osun State, ensuring each polling unit has accurate geospatial data (latitude and longitude).
+
+### Methodology
+- **Dataset Selection**: We selected the `Osun_crosschecked.csv` file from the provided drive link, as Osun State was chosen for this analysis.
+- **Initial Data Inspection**: The dataset contained polling unit names, votes for each party (APC, PDP, LP, NNPP), and other metadata but lacked latitude and longitude for most polling units.
+- **Geocoding**:
+  - We used the **Google Maps Geocoding API** to obtain coordinates for polling units lacking geospatial data.
+  - A Python script was written to automate the geocoding process, handling API requests and error handling for missing or ambiguous addresses.
+  - Example Python code snippet for geocoding:
+    ```python
+    import pandas as pd
+    from geopy.geocoders import GoogleV3
+    import time
+
+    # Load the dataset
+    df = pd.read_csv('Osun_crosschecked.csv')
+
+    # Initialize the geocoder
+    geolocator = GoogleV3(api_key='YOUR_API_KEY')
+
+    # Function to geocode polling unit addresses
+    def geocode_address(address):
+        try:
+            location = geolocator.geocode(address + ', Osun State, Nigeria')
+            if location:
+                return location.latitude, location.longitude
+            else:
+                return None, None
+        except:
+            return None, None
+
+    # Apply geocoding to polling units
+    df['Latitude'], df['Longitude'] = zip(*df['PU-Name'].apply(geocode_address))
+    time.sleep(1)  # Avoid API rate limits
+
+    # Save the geocoded dataset
+    df.to_csv('Osun_geocoded.csv', index=False)
+    ```
+- **Data Cleaning**:
+  - Removed duplicate polling units.
+  - Filled missing vote counts with zeros where appropriate.
+  - Standardized column names (e.g., `PU-Name`, `APC`, `PDP`, `LP`, `NNPP`, `Latitude`, `Longitude`).
+
+
+- **Geocoded Dataset**: A cleaned CSV file named `Osun_geocoded.csv` with coordinates for all polling units.
+#### Image Reference
+- **Image 1: Screenshot of the Geocoded Dataset**
+  - **Description**: A screenshot of the first few rows of `Osun_geocoded.csv`, showing columns like `PU-Name`, `APC`, `PDP`, `LP`, `NNPP`, `Latitude`, and `Longitude`. This image highlights the successful addition of geospatial data.
+  ![Screenshot of the Geocoded Dataset](images/geo.png)
+
+---
+
+## 2. Advanced Neighbor Identification
+
+### Objective
+The second objective was to employ geospatial clustering techniques to identify polling unit clusters based on geographic proximity and conduct a sensitivity analysis by varying neighborhood radii.
+
+### Methodology
+- **Geospatial Clustering with DBSCAN**:
+  - We used the DBSCAN (Density-Based Spatial Clustering of Applications with Noise) algorithm to cluster polling units based on their geographic proximity.
+  - DBSCAN was chosen because it can identify clusters of varying shapes and mark outliers as noise, which aligns with our goal of detecting anomalous polling units.
+  - Python code snippet for DBSCAN clustering:
+    ```python
+    import pandas as pd
+    from sklearn.cluster import DBSCAN
+    import numpy as np
+
+    # Load the geocoded dataset
+    df = pd.read_csv('Osun_geocoded.csv')
+
+    # Extract coordinates
+    coords = df[['Latitude', 'Longitude']].values
+
+    # Convert distances to radians for DBSCAN (Earth's radius ~6371 km)
+    kms_per_radian = 6371.0
+    radii = [0.5, 1.0, 2.0]  # 500m, 1km, 2km
+
+    # Perform DBSCAN clustering for each radius
+    for radius in radii:
+        eps = radius / kms_per_radian  # Convert radius to radians
+        db = DBSCAN(eps=eps, min_samples=3, metric='haversine').fit(np.radians(coords))
+        df[f'Cluster_{int(radius*1000)}m'] = db.labels_
+        # -1 indicates outliers (noise points)
+        df[f'Outlier_{int(radius*1000)}m'] = (db.labels_ == -1).astype(int)
+
+    # Save the clustered dataset
+    df.to_csv('Osun_clustered.csv', index=False)
+    ```
+- **Sensitivity Analysis**:
+  - We varied the neighborhood radius (500m, 1km, 2km) to evaluate how the clustering and outlier detection results changed.
+  - Results:
+    - At 500m: 927 outliers identified.
+    - At 1km: 648 outliers identified.
+    - At 2km: 445 outliers identified.
+  - A smaller radius (500m) resulted in more outliers because clusters were smaller and more polling units were considered isolated. A larger radius (2km) grouped more polling units into clusters, reducing the number of outliers.
+
+- **Clustered Dataset**: A CSV file named `Osun_clustered.csv` with additional columns for cluster labels and outlier indicators at each radius.
+
+#### Image Reference
+- **Image 2: Map of DBSCAN Clusters at 1km Radius**
+  - **Description**: An image showing polling units in Osun State, with additional columns for cluster labels and outlier indicators at each radius.
+![Map of DBSCAN Clusters at 1km Radius](images/clu.png)
+
+---
+
+## 3. Sophisticated Outlier Score Calculation
+
+### Objective
+The third objective was to calculate outlier scores for each polling unit using robust spatial statistical methods and cross-validate with machine learning techniques.
+
+### Methodology
+- **Spatial Statistical Methods**:
+  - **Local Moran’s I**: Used to identify localized spatial autocorrelation in voting patterns for each party (APC, PDP, LP, NNPP). This method detects whether a polling unit’s votes are significantly different from its neighbors.
+  - **Getis-Ord Gi* (Hot Spot Analysis)**: Used to detect significant vote concentrations (hot spots) for each party, indicating areas with unusually high or low votes.
+  - Python code snippet for Local Moran’s I and Getis-Ord Gi*:
+    ```python
+    import pandas as pd
+    import geopandas as gpd
+    from libpysal.weights import Queen
+    from esda.moran import Moran_Local
+    from esda.getisord import G_Local
+
+    # Load the clustered dataset
+    df = pd.read_csv('Osun_clustered.csv')
+
+    # Convert to GeoDataFrame
+    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.Longitude, df.Latitude))
+
+    # Create spatial weights (Queen contiguity)
+    w = Queen.from_dataframe(gdf)
+
+    # Calculate Local Moran's I for PDP votes
+    moran_loc = Moran_Local(gdf['PDP'], w)
+    gdf['PDP_Local_Moran_I'] = moran_loc.Is
+
+    # Calculate Getis-Ord Gi* for PDP votes
+    gi = G_Local(gdf['PDP'], w)
+    gdf['PDP_Getis_Ord_Gi'] = gi.z_sim
+
+    # Repeat for other parties (APC, LP, NNPP)
+    # ...
+
+    # Save the dataset with spatial statistics
+    gdf.to_csv('Osun_spatial_stats.csv', index=False)
+    ```
+- **Machine Learning Validation with Isolation Forest**:
+  - Used the Isolation Forest algorithm to cross-validate the spatial statistical results. Isolation Forest identifies anomalies by isolating observations in a decision tree structure.
+  - Python code snippet for Isolation Forest:
+    ```python
+    from sklearn.ensemble import IsolationForest
+
+    # Load the dataset with spatial statistics
+    df = pd.read_csv('Osun_spatial_stats.csv')
+
+    # Features for Isolation Forest (votes and spatial stats)
+    features = df[['APC', 'PDP', 'LP', 'NNPP', 'PDP_Local_Moran_I', 'PDP_Getis_Ord_Gi']]
+
+    # Fit Isolation Forest
+    iso_forest = IsolationForest(contamination=0.1, random_state=42)
+    df['Isolation_Forest'] = iso_forest.fit_predict(features)
+    df['Isolation_Forest'] = df['Isolation_Forest'].map({1: False, -1: True})  # -1 indicates outlier
+
+    # Save the dataset
+    df.to_csv('Osun_with_outlier_scores.csv', index=False)
+    ```
+- **Outlier Score Calculation**:
+  - Combined the results from Local Moran’s I, Getis-Ord Gi*, and Isolation Forest to assign an outlier score (0 to 3) for each party:
+    - Score 0: Not an outlier.
+    - Score 1: Outlier by one method.
+    - Score 2: Outlier by two methods.
+    - Score 3: Outlier by all three methods.
+  - A `Max_Outlier_Score` was calculated as the highest score across all parties for each polling unit.
+
+###
+- **Dataset with Outlier Scores**: A CSV file named `Osun_with_outlier_scores.csv` with columns for Local Moran’s I, Getis-Ord Gi*, Isolation Forest results, and outlier scores for each party.
+- **Spreadsheet of Significant Outliers**: A CSV file named `significant_outliers_by_party.csv`, sorted by outlier scores per party, showing polling units identified as significant outliers (score ≥ 2).
+
+#### Image Reference
+- **Image 3: Table of Outlier Scores**
+  - **Description**: A screenshot of the first few rows of `significant_outliers_by_party.csv`, showing columns like `Latitude`, `Longitude`, `APC_Outlier_Score`, `PDP_Outlier_Score`, `LP_Outlier_Score`, `NNPP_Outlier_Score`, and `Max_Outlier_Score`. This image highlights the polling units with the highest outlier scores.
+  ![Table of Outlier Scores](images/sig.png)
+
+- **Image 4: Map of Outliers by Local Moran’s I**
+  - **Description**: A map showing polling units in Osun State, color-coded by Local Moran’s I scores for PDP votes. High scores (indicating significant outliers) are in red, while low scores are in green. This image visualizes the spatial distribution of outliers.
+ ![Map of Outliers by Local Moran’s I](images/lor.png)
+
+---
+
+## 4. Temporal and Demographic Comparative Analysis
+
+### Objective
+The fourth objective was to conduct a historical comparison of voting behaviors and integrate socio-economic or demographic data to contextualize anomalies.
+
+### Methodology
+- **Historical Comparison**:
+  - Collected historical election data for Osun State from 2015, 2019, and 2023.
+  - Calculated vote shares for each party (APC, PDP, LP, NNPP) over these years to identify temporal trends.
+  - Python code snippet for historical analysis:
+    ```python
+    import pandas as pd
+
+    # Load historical data (assumed to be in separate CSV files)
+    df_2015 = pd.read_csv('Osun_2015.csv')
+    df_2019 = pd.read_csv('Osun_2019.csv')
+    df_2023 = pd.read_csv('Osun_2023.csv')
+
+    # Calculate vote shares
+    for year, df in [(2015, df_2015), (2019, df_2019), (2023, df_2023)]:
+        total_votes = df[['APC', 'PDP', 'LP', 'NNPP']].sum()
+        for party in ['APC', 'PDP', 'LP', 'NNPP']:
+            df[f'{party}_Vote_Share'] = df[party] / total_votes[party]
+        df['Year'] = year
+        df.to_csv(f'Osun_{year}_vote_shares.csv', index=False)
+
+    # Combine historical data
+    historical_df = pd.concat([df_2015, df_2019, df_2023])
+    historical_df.to_csv('Osun_historical.csv', index=False)
+    ```
+- **Demographic Integration**:
+  - I Integrated socio-economic data (poverty rate, literacy rate, urbanization rate, youth population) for Osun State, sourced from publicly available datasets.
+  - Merged this data with the election dataset at the LGA level.
+  - Python code snippet for demographic integration:
+    ```python
+    # Load election and demographic data
+    election_df = pd.read_csv('Osun_with_outlier_scores.csv')
+    demographic_df = pd.read_csv('Osun_demographics.csv')
+
+    # Merge datasets on LGA
+    merged_df = election_df.merge(demographic_df, on='LGA', how='left')
+
+    # Save the merged dataset
+    merged_df.to_csv('Osun_with_demographics.csv', index=False)
+    ```
+
+- **Historical Dataset**: A CSV file named `Osun_historical.csv` with vote shares for each party across 2015, 2019, and 2023.
+- **Merged Dataset with Demographics**: A CSV file named `Osun_with_demographics.csv` with demographic data integrated at the LGA level.
+
+
+#### Image Reference
+- **Image 5: Historical Vote Share Trends**
+  - **Description**: A line chart showing the vote share trends for APC, PDP, LP, and NNPP from 2015 to 2023 in Osun State. This image highlights temporal changes in voting behavior.
+![Historical Vote Share Trends](images/t1.png)
+![Historical Vote Share Trends](images/t2.png)
+![Historical Vote Share Trends](images/t3.png)
+![Historical Vote Share Trends](images/t4.png)
+
+- **Image 6: Demographic Data Table**
+  - **Description**: A screenshot of the first few rows of `Osun_with_demographics.csv`, showing columns like `LGA`, `Poverty_Rate`, `Literacy_Rate`, and `Youth_Population_Percent`. This image shows the integration of demographic data
+  ![Demographic Data Table](images/demo.png)
+
+---
+
+## 5. Interactive Visualization and Reporting
+
+### Objective
+The fifth objective was to develop an interactive dashboard to visualize spatial-temporal anomalies, cluster analysis results, and demographic correlations, showing differences across neighborhoods, parties, and historical trends.
+
+### Methodology
+- **Tool Selection**: We used Power BI to develop the interactive dashboard, as it supports geospatial visualizations, interactivity, and easy sharing.
+- **Dashboard Structure**:
+  - Created five pages: Home, APC, PDP, NNPP, and LP.
+  - Each page includes visualizations tailored to the specific party, with the Home page providing an overview.
+- **Visualizations**:
+  - **Spatial-Temporal Anomalies**:
+    - A map of significant outliers in Osun State, showing polling units with outlier scores (0 to 3).
+    - Line charts showing vote share trends for each party from 2015 to 2023.
+  - **Cluster Analysis Results**: Included a map of clusters and a table showing cluster statistics.
+  - **Demographic Correlations**: Included demographic metrics (e.g., Poverty Rate: 60.20%).
+  - **Outliers**: Maps and tables showing polling units with high outlier scores.
+  - **Differences Across Neighborhoods**: A bar chart showing LGAs with the highest percentage of outliers.
+  - **Parties**: Donut charts showing the proportion of outliers for each party, and party-specific pages with tailored visuals.
+  - **Historical Trends**: Line charts showing vote share trends over time.
+
+### Dashboard Pages
+- **Home Page**:
+  - Overview metrics: Total Polling Units (2248), Total Votes (950K), Total Votes 2023 (221K), No. LGA (30), Poverty Rate (60.20%).
+  - Bar chart: "LGAs with the Highest Outliers" (e.g., Ife Central: 67%, Osogbo: 52%).
+  - Donut charts: "Outliers by Parties" (e.g., PDP: 23/149 Yes, APC: 23/152 Yes).
+  - Table: List of polling units with votes, Isolation Forest results, and outlier scores.
+  - Map: "Map of Significant Outliers in Osun State".
+- **APC Page**:
+  - Line chart: "APC Vote Share Trend (2015-2023)".
+  - Line chart: "Public Behaviour towards APC" (total votes over time).
+  - Table: Polling units with APC votes, Isolation Forest results, and outlier scores.
+  - Map: "Map of Significant Outliers in Osun State for APC".
+- **PDP Page**:
+  - Line chart: "PDP Vote Share Trend (2015-2023)".
+  - Line chart: "Public Behaviour towards PDP".
+  - Table: Polling units with PDP votes, Isolation Forest results, and outlier scores.
+  - Map: "Map of Significant Outliers in Osun State for PDP".
+- **NNPP Page**:
+  - Line chart: "NNPP Vote Share Trend (2015-2023)".
+  - Line chart: "Public Behaviour towards NNPP".
+  - Table: Polling units with NNPP votes, Isolation Forest results, and outlier scores.
+  - Map: "Map of Significant Outliers in Osun State for NNPP".
+- **LP Page**:
+  - Line chart: "LP Vote Share Trend (2015-2023)".
+  - Line chart: "Public Behaviour towards LP".
+  - Table: Polling units with LP votes, Isolation Forest results, and outlier scores.
+  - Map: "Map of Significant Outliers in Osun State for LP".
+
+- **Interactive Dashboard**: A Power BI dashboard with five pages, accessible via a shared link.
+[Click Here](https://app.powerbi.com/view?r=eyJrIjoiYTYyMjk5ODEtY2UwOC00MmQ1LWIwZDgtYmIyZWRmNmE1ZDY5IiwidCI6IjhmNzg3ODg0LTA2MTctNDEzMi05MzFhLTQyYjljM2ViNjM3YiJ9 )
+
+#### Image Reference
+- **Image 8: Home Page of the Power BI Dashboard**
+  - **Description**: A screenshot of the Home page, showing the overview metrics, "LGAs with the Highest Outliers" bar chart, "Outliers by Parties" donut charts, table of polling units, and map of significant outliers. This image provides an overview of the dashboard.
+![Home Page of the Power BI Dashboard](images/HOME.png)
+
+- **Image 9: APC Page of the Power BI Dashboard**
+  - **Description**: A screenshot of the APC page, showing the "APC Vote Share Trend (2015-2023)" line chart, "Public Behaviour towards APC" line chart, table of polling units, and map of significant outliers for APC. This image highlights party-specific analysis.
+![APC Page of the Power BI Dashboard](images/APC.png)
+
+- **Image 10: PDP Page of the Power BI Dashboard**
+  - **Description**: A screenshot of the PDP page, showing the "PDP Vote Share Trend (2015-2023)" line chart, "Public Behaviour towards PDP" line chart, table of polling units, and map of significant outliers for PDP.
+![PDP Page of the Power BI Dashboard](images/PDP.png)
+
+- **Image 11: NNPP Page of the Power BI Dashboard**
+  - **Description**: A screenshot of the NNPP page, showing the "NNPP Vote Share Trend (2015-2023)" line chart, "Public Behaviour towards NNPP" line chart, table of polling units, and map of significant outliers for NNPP.
+![NNPP Page of the Power BI Dashboard](images/NNPP.png)
+
+- **Image 12: LP Page of the Power BI Dashboard**
+  - **Description**: A screenshot of the LP page, showing the "LP Vote Share Trend (2015-2023)" line chart, "Public Behaviour towards LP" line chart, table of polling units, and map of significant outliers for LP.
+![LP Page of the Power BI Dashboard](images/LP.png)
+
+---
+
+## Advanced Outlier Detection Report
+
+### Methodologies Employed
+- **Geospatial Clustering**: Used DBSCAN to cluster polling units based on geographic proximity, with sensitivity analysis at 500m, 1km, and 2km radii.
+- **Spatial Statistical Methods**:
+  - Local Moran’s I to detect localized spatial autocorrelation.
+  - Getis-Ord Gi* to identify vote concentration hot spots.
+- **Machine Learning Validation**: Used Isolation Forest to cross-validate spatial statistical results.
+- **Demographic Integration**: Merged socio-economic data (poverty rate, literacy rate, youth population) to contextualize anomalies.
+- **Visualization**: Developed a Power BI dashboard with interactive visualizations.
+
+### Top 5 Outlier Polling Units
+Based on the `Max_Outlier_Score`, the top 5 outlier polling units are:
+1. **COURT HALL OGBAGBA II (Ife Central LGA)**:
+   - Max Outlier Score: 3
+   - PDP Votes: 776, Isolation Forest: True
+   - Reason: High PDP votes compared to neighbors, significant spatial autocorrelation.
+2. **HOLY SAVIOUR’S PRY. SCHOOL, OKE OTUBU (Osogbo LGA)**:
+   - Max Outlier Score: 3
+   - PDP Votes: 279, Isolation Forest: True
+   - Reason: Unusual vote concentration, flagged by all methods.
+3. **A.U.D. ISALE OSUN 1 (Irepodun LGA)**:
+   - Max Outlier Score: 3
+   - PDP Votes: 609, Isolation Forest: False
+   - Reason: High Local Moran’s I and Getis-Ord Gi* scores.
+4. **OPP. 17 UP GBONGAN ROAD (Osogbo LGA)**:
+   - Max Outlier Score: 3
+   - PDP Votes: 465, Isolation Forest: True
+   - Reason: Significant deviation from neighboring units.
+5. **ALADURA JUNCTION (Ede South LGA)**:
+   - Max Outlier Score: 3
+   - PDP Votes: 331, Isolation Forest: True
+   - Reason: High outlier scores across all methods.
+
+
+
+### Hypotheses on Potential Reasons for Anomalies
+- **Vote Buying or Suppression**: High outlier scores in urban LGAs like Ife Central and Osogbo may indicate vote buying or suppression, as these areas have higher population density and political activity.
+- **Logistical Issues**: Some outliers in rural LGAs (e.g., Ede South) may be due to logistical issues, such as delayed result reporting or errors in vote counting.
+- **Demographic Influence**: Polling units in LGAs with high poverty rates (e.g., 60.20% in Osun State) may show anomalies due to socio-economic pressures influencing voting behavior.
+
+### Recommendations for Election Authorities
+- **Investigate Top Outliers**: INEC should investigate the top 5 outlier polling units, focusing on Ife Central and Osun State, for potential irregularities.
+- **Enhance Monitoring in High-Risk LGAs**: Increase monitoring in LGAs with the highest percentage of outliers (e.g., Ife Central, Osogbo).
+- **Address Socio-Economic Factors**: Implement voter education programs in areas with high poverty rates to reduce the influence of vote buying.
+- **Improve Data Collection**: Ensure accurate and timely reporting of results, especially in rural areas, to reduce logistical errors.
+
+---
+
+## Conclusion
+
+This project successfully identified outlier polling units in Osun State using advanced geospatial analysis, spatial statistics, and machine learning. The interactive Power BI dashboard provides a comprehensive view of spatial-temporal anomalies, differences across neighborhoods and parties, and historical trends. However, there are gaps in visualizing cluster analysis results and demographic correlations, which could be addressed in future iterations.
+
+The top 5 outlier polling units and high-risk LGAs have been identified, with hypotheses and recommendations provided to INEC for further action.
+---

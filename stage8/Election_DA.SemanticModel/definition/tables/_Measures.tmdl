@@ -1,0 +1,113 @@
+table _Measures
+	lineageTag: fb7bfcc0-0587-4edd-93e5-b7d454b2489b
+
+	measure Avg_APC_Outliers = ```
+			
+			CALCULATE(
+			    AVERAGE('significant_outliers_by_party'[APC]),
+			    'significant_outliers_by_party'[Max_Outlier_Score] >= 2
+			)
+			
+			```
+		formatString: 0
+		lineageTag: e19c5c90-4c3b-489a-8bb5-717e245ef76b
+
+	measure Avg_PDP_Outliers = ```
+			
+			CALCULATE(
+			    AVERAGE('significant_outliers_by_party'[PDP]),
+			    'significant_outliers_by_party'[Max_Outlier_Score] >= 2
+			)
+			
+			```
+		lineageTag: d074079f-2969-412d-811d-7c11fbaab207
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_LP_Outliers = ```
+			
+			CALCULATE(
+			    AVERAGE('significant_outliers_by_party'[LP]),
+			    'significant_outliers_by_party'[Max_Outlier_Score] >= 2
+			)
+			
+			
+			```
+		lineageTag: 8a93d287-828c-4fb6-87fd-5102b95ea7ab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Count_Significant_Outliers =
+			
+			CALCULATE(
+			    COUNTROWS('significant_outliers_by_party'),
+			    'significant_outliers_by_party'[Max_Outlier_Score] >= 2
+			)
+		formatString: 0
+		lineageTag: 484fed53-3a01-4872-8d6c-e365ba7961ee
+
+	measure Avg_Outlier_Score =
+			
+			AVERAGE('outlier_scores'[Outlier_Score])
+		lineageTag: ff80ca34-89f4-4c19-8778-05eed7024fcd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_NNPP_Outliers = ```
+			
+			CALCULATE(
+			    AVERAGE('significant_outliers_by_party'[NNPP]),
+			    'significant_outliers_by_party'[Max_Outlier_Score] >= 2
+			)
+			
+			
+			```
+		lineageTag: c8eb03e9-16dc-4fe7-bb6e-01b9a95c7f1a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Polling_Units = COUNTROWS('outlier_scores')
+		formatString: 0
+		lineageTag: 24fe2ca7-a01f-47ab-82a8-a70a6a1b2bfd
+
+	measure Outlier_Polling_Units = CALCULATE(COUNTROWS('significant_outliers_by_party'), 'significant_outliers_by_party'[Is_Outlier] = "Yes")
+		formatString: 0
+		lineageTag: 931d41dc-c37c-47aa-88c2-d7dd01600bdc
+
+	measure Percentage_Outliers = DIVIDE([Outlier_Polling_Units], [Total_Polling_Units], 0) * 100
+		lineageTag: 44d235b6-1108-4a8d-a735-94de4ad08dc6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Percentage_APC_Outliers =
+			
+			CALCULATE(
+			    DIVIDE(
+			        CALCULATE(COUNTROWS('significant_outliers_by_party'), 'significant_outliers_by_party'[Is_APC_Outlier] = "Yes"),
+			        COUNTROWS('significant_outliers_by_party'),
+			        0
+			    ) * 100
+			)
+		lineageTag: adf6629b-2c30-4872-b806-54250b55c450
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column1
+		dataType: string
+		lineageTag: e2b4cdce-8d94-46fb-b4da-6c27d189a378
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
