@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Report.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #ff6b09; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css" type="text/css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<hr>
+<h1 id="enhanced-case-study-advanced-geospatial-analysis-for-election-integrity">Enhanced Case Study: Advanced Geospatial Analysis for Election Integrity</h1>
+<pre class="hljs"><code><div>Prepared by  Adordev
+</div></code></pre>
+<h2 id="introduction">Introduction</h2>
+<p>This project was undertaken to assist the Independent National Electoral Commission (INEC) in identifying potential electoral irregularities in the recently concluded election in Osun State, Nigeria. The goal was to detect outlier polling units where voting patterns significantly deviate from expected patterns or neighboring units, which could indicate manipulation or irregularities. The analysis leverages advanced geospatial techniques, statistical methods, machine learning, temporal comparisons, and demographic data to provide a comprehensive assessment of election integrity.</p>
+<p>The project follows five key objectives:</p>
+<ol>
+<li><strong>Enhanced Dataset Preparation</strong>: Clean and geocode the election dataset.</li>
+<li><strong>Advanced Neighbor Identification</strong>: Use geospatial clustering to identify polling unit clusters.</li>
+<li><strong>Sophisticated Outlier Score Calculation</strong>: Calculate outlier scores using spatial statistics and machine learning.</li>
+<li><strong>Temporal and Demographic Comparative Analysis</strong>: Analyze historical trends and demographic correlations.</li>
+<li><strong>Interactive Visualization and Reporting</strong>: Develop an interactive dashboard to visualize findings.</li>
+</ol>
+<p>This documentation details the methodologies, results,  with references to images for visual representation.</p>
+<hr>
+<h2 id="1-enhanced-dataset-preparation">1. Enhanced Dataset Preparation</h2>
+<h3 id="objective">Objective</h3>
+<p>The first objective was to prepare a fully geocoded and cleaned dataset for Osun State, ensuring each polling unit has accurate geospatial data (latitude and longitude).</p>
+<h3 id="methodology">Methodology</h3>
+<ul>
+<li>
+<p><strong>Dataset Selection</strong>: We selected the <code>Osun_crosschecked.csv</code> file from the provided drive link, as Osun State was chosen for this analysis.</p>
+</li>
+<li>
+<p><strong>Initial Data Inspection</strong>: The dataset contained polling unit names, votes for each party (APC, PDP, LP, NNPP), and other metadata but lacked latitude and longitude for most polling units.</p>
+</li>
+<li>
+<p><strong>Geocoding</strong>:</p>
+<ul>
+<li>We used the <strong>Google Maps Geocoding API</strong> to obtain coordinates for polling units lacking geospatial data.</li>
+<li>A Python script was written to automate the geocoding process, handling API requests and error handling for missing or ambiguous addresses.</li>
+<li>Example Python code snippet for geocoding:<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> geopy.geocoders <span class="hljs-keyword">import</span> GoogleV3
+<span class="hljs-keyword">import</span> time
+
+<span class="hljs-comment"># Load the dataset</span>
+df = pd.read_csv(<span class="hljs-string">'Osun_crosschecked.csv'</span>)
+
+<span class="hljs-comment"># Initialize the geocoder</span>
+geolocator = GoogleV3(api_key=<span class="hljs-string">'YOUR_API_KEY'</span>)
+
+<span class="hljs-comment"># Function to geocode polling unit addresses</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">geocode_address</span><span class="hljs-params">(address)</span>:</span>
+    <span class="hljs-keyword">try</span>:
+        location = geolocator.geocode(address + <span class="hljs-string">', Osun State, Nigeria'</span>)
+        <span class="hljs-keyword">if</span> location:
+            <span class="hljs-keyword">return</span> location.latitude, location.longitude
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>
+    <span class="hljs-keyword">except</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>
+
+<span class="hljs-comment"># Apply geocoding to polling units</span>
+df[<span class="hljs-string">'Latitude'</span>], df[<span class="hljs-string">'Longitude'</span>] = zip(*df[<span class="hljs-string">'PU-Name'</span>].apply(geocode_address))
+time.sleep(<span class="hljs-number">1</span>)  <span class="hljs-comment"># Avoid API rate limits</span>
+
+<span class="hljs-comment"># Save the geocoded dataset</span>
+df.to_csv(<span class="hljs-string">'Osun_geocoded.csv'</span>, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Cleaning</strong>:</p>
+<ul>
+<li>Removed duplicate polling units.</li>
+<li>Filled missing vote counts with zeros where appropriate.</li>
+<li>Standardized column names (e.g., <code>PU-Name</code>, <code>APC</code>, <code>PDP</code>, <code>LP</code>, <code>NNPP</code>, <code>Latitude</code>, <code>Longitude</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Geocoded Dataset</strong>: A cleaned CSV file named <code>Osun_geocoded.csv</code> with coordinates for all polling units.</p>
+</li>
+</ul>
+<h4 id="image-reference">Image Reference</h4>
+<ul>
+<li><strong>Image 1: Screenshot of the Geocoded Dataset</strong>
+<ul>
+<li><strong>Description</strong>: A screenshot of the first few rows of <code>Osun_geocoded.csv</code>, showing columns like <code>PU-Name</code>, <code>APC</code>, <code>PDP</code>, <code>LP</code>, <code>NNPP</code>, <code>Latitude</code>, and <code>Longitude</code>. This image highlights the successful addition of geospatial data.
+<img src="images/geo.png" alt="Screenshot of the Geocoded Dataset"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-advanced-neighbor-identification">2. Advanced Neighbor Identification</h2>
+<h3 id="objective">Objective</h3>
+<p>The second objective was to employ geospatial clustering techniques to identify polling unit clusters based on geographic proximity and conduct a sensitivity analysis by varying neighborhood radii.</p>
+<h3 id="methodology">Methodology</h3>
+<ul>
+<li>
+<p><strong>Geospatial Clustering with DBSCAN</strong>:</p>
+<ul>
+<li>We used the DBSCAN (Density-Based Spatial Clustering of Applications with Noise) algorithm to cluster polling units based on their geographic proximity.</li>
+<li>DBSCAN was chosen because it can identify clusters of varying shapes and mark outliers as noise, which aligns with our goal of detecting anomalous polling units.</li>
+<li>Python code snippet for DBSCAN clustering:<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> sklearn.cluster <span class="hljs-keyword">import</span> DBSCAN
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-comment"># Load the geocoded dataset</span>
+df = pd.read_csv(<span class="hljs-string">'Osun_geocoded.csv'</span>)
+
+<span class="hljs-comment"># Extract coordinates</span>
+coords = df[[<span class="hljs-string">'Latitude'</span>, <span class="hljs-string">'Longitude'</span>]].values
+
+<span class="hljs-comment"># Convert distances to radians for DBSCAN (Earth's radius ~6371 km)</span>
+kms_per_radian = <span class="hljs-number">6371.0</span>
+radii = [<span class="hljs-number">0.5</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>]  <span class="hljs-comment"># 500m, 1km, 2km</span>
+
+<span class="hljs-comment"># Perform DBSCAN clustering for each radius</span>
+<span class="hljs-keyword">for</span> radius <span class="hljs-keyword">in</span> radii:
+    eps = radius / kms_per_radian  <span class="hljs-comment"># Convert radius to radians</span>
+    db = DBSCAN(eps=eps, min_samples=<span class="hljs-number">3</span>, metric=<span class="hljs-string">'haversine'</span>).fit(np.radians(coords))
+    df[<span class="hljs-string">f'Cluster_<span class="hljs-subst">{int(radius*<span class="hljs-number">1000</span>)}</span>m'</span>] = db.labels_
+    <span class="hljs-comment"># -1 indicates outliers (noise points)</span>
+    df[<span class="hljs-string">f'Outlier_<span class="hljs-subst">{int(radius*<span class="hljs-number">1000</span>)}</span>m'</span>] = (db.labels_ == <span class="hljs-number">-1</span>).astype(int)
+
+<span class="hljs-comment"># Save the clustered dataset</span>
+df.to_csv(<span class="hljs-string">'Osun_clustered.csv'</span>, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sensitivity Analysis</strong>:</p>
+<ul>
+<li>We varied the neighborhood radius (500m, 1km, 2km) to evaluate how the clustering and outlier detection results changed.</li>
+<li>Results:
+<ul>
+<li>At 500m: 927 outliers identified.</li>
+<li>At 1km: 648 outliers identified.</li>
+<li>At 2km: 445 outliers identified.</li>
+</ul>
+</li>
+<li>A smaller radius (500m) resulted in more outliers because clusters were smaller and more polling units were considered isolated. A larger radius (2km) grouped more polling units into clusters, reducing the number of outliers.</li>
+</ul>
+</li>
+<li>
+<p><strong>Clustered Dataset</strong>: A CSV file named <code>Osun_clustered.csv</code> with additional columns for cluster labels and outlier indicators at each radius.</p>
+</li>
+</ul>
+<h4 id="image-reference">Image Reference</h4>
+<ul>
+<li><strong>Image 2: Map of DBSCAN Clusters at 1km Radius</strong>
+<ul>
+<li><strong>Description</strong>: An image showing polling units in Osun State, with additional columns for cluster labels and outlier indicators at each radius.
+<img src="images/clu.png" alt="Map of DBSCAN Clusters at 1km Radius"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-sophisticated-outlier-score-calculation">3. Sophisticated Outlier Score Calculation</h2>
+<h3 id="objective">Objective</h3>
+<p>The third objective was to calculate outlier scores for each polling unit using robust spatial statistical methods and cross-validate with machine learning techniques.</p>
+<h3 id="methodology">Methodology</h3>
+<ul>
+<li><strong>Spatial Statistical Methods</strong>:
+<ul>
+<li><strong>Local Moran’s I</strong>: Used to identify localized spatial autocorrelation in voting patterns for each party (APC, PDP, LP, NNPP). This method detects whether a polling unit’s votes are significantly different from its neighbors.</li>
+<li><em><em>Getis-Ord Gi</em> (Hot Spot Analysis)</em>*: Used to detect significant vote concentrations (hot spots) for each party, indicating areas with unusually high or low votes.</li>
+<li>Python code snippet for Local Moran’s I and Getis-Ord Gi*:<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> geopandas <span class="hljs-keyword">as</span> gpd
+<span class="hljs-keyword">from</span> libpysal.weights <span class="hljs-keyword">import</span> Queen
+<span class="hljs-keyword">from</span> esda.moran <span class="hljs-keyword">import</span> Moran_Local
+<span class="hljs-keyword">from</span> esda.getisord <span class="hljs-keyword">import</span> G_Local
+
+<span class="hljs-comment"># Load the clustered dataset</span>
+df = pd.read_csv(<span class="hljs-string">'Osun_clustered.csv'</span>)
+
+<span class="hljs-comment"># Convert to GeoDataFrame</span>
+gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.Longitude, df.Latitude))
+
+<span class="hljs-comment"># Create spatial weights (Queen contiguity)</span>
+w = Queen.from_dataframe(gdf)
+
+<span class="hljs-comment"># Calculate Local Moran's I for PDP votes</span>
+moran_loc = Moran_Local(gdf[<span class="hljs-string">'PDP'</span>], w)
+gdf[<span class="hljs-string">'PDP_Local_Moran_I'</span>] = moran_loc.Is
+
+<span class="hljs-comment"># Calculate Getis-Ord Gi* for PDP votes</span>
+gi = G_Local(gdf[<span class="hljs-string">'PDP'</span>], w)
+gdf[<span class="hljs-string">'PDP_Getis_Ord_Gi'</span>] = gi.z_sim
+
+<span class="hljs-comment"># Repeat for other parties (APC, LP, NNPP)</span>
+<span class="hljs-comment"># ...</span>
+
+<span class="hljs-comment"># Save the dataset with spatial statistics</span>
+gdf.to_csv(<span class="hljs-string">'Osun_spatial_stats.csv'</span>, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li><strong>Machine Learning Validation with Isolation Forest</strong>:
+<ul>
+<li>Used the Isolation Forest algorithm to cross-validate the spatial statistical results. Isolation Forest identifies anomalies by isolating observations in a decision tree structure.</li>
+<li>Python code snippet for Isolation Forest:<pre class="hljs"><code><div><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> IsolationForest
+
+<span class="hljs-comment"># Load the dataset with spatial statistics</span>
+df = pd.read_csv(<span class="hljs-string">'Osun_spatial_stats.csv'</span>)
+
+<span class="hljs-comment"># Features for Isolation Forest (votes and spatial stats)</span>
+features = df[[<span class="hljs-string">'APC'</span>, <span class="hljs-string">'PDP'</span>, <span class="hljs-string">'LP'</span>, <span class="hljs-string">'NNPP'</span>, <span class="hljs-string">'PDP_Local_Moran_I'</span>, <span class="hljs-string">'PDP_Getis_Ord_Gi'</span>]]
+
+<span class="hljs-comment"># Fit Isolation Forest</span>
+iso_forest = IsolationForest(contamination=<span class="hljs-number">0.1</span>, random_state=<span class="hljs-number">42</span>)
+df[<span class="hljs-string">'Isolation_Forest'</span>] = iso_forest.fit_predict(features)
+df[<span class="hljs-string">'Isolation_Forest'</span>] = df[<span class="hljs-string">'Isolation_Forest'</span>].map({<span class="hljs-number">1</span>: <span class="hljs-literal">False</span>, <span class="hljs-number">-1</span>: <span class="hljs-literal">True</span>})  <span class="hljs-comment"># -1 indicates outlier</span>
+
+<span class="hljs-comment"># Save the dataset</span>
+df.to_csv(<span class="hljs-string">'Osun_with_outlier_scores.csv'</span>, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li><strong>Outlier Score Calculation</strong>:
+<ul>
+<li>Combined the results from Local Moran’s I, Getis-Ord Gi*, and Isolation Forest to assign an outlier score (0 to 3) for each party:
+<ul>
+<li>Score 0: Not an outlier.</li>
+<li>Score 1: Outlier by one method.</li>
+<li>Score 2: Outlier by two methods.</li>
+<li>Score 3: Outlier by all three methods.</li>
+</ul>
+</li>
+<li>A <code>Max_Outlier_Score</code> was calculated as the highest score across all parties for each polling unit.</li>
+</ul>
+</li>
+</ul>
+<h3 id=""></h3>
+<ul>
+<li><strong>Dataset with Outlier Scores</strong>: A CSV file named <code>Osun_with_outlier_scores.csv</code> with columns for Local Moran’s I, Getis-Ord Gi*, Isolation Forest results, and outlier scores for each party.</li>
+<li><strong>Spreadsheet of Significant Outliers</strong>: A CSV file named <code>significant_outliers_by_party.csv</code>, sorted by outlier scores per party, showing polling units identified as significant outliers (score ≥ 2).</li>
+</ul>
+<h4 id="image-reference">Image Reference</h4>
+<ul>
+<li>
+<p><strong>Image 3: Table of Outlier Scores</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the first few rows of <code>significant_outliers_by_party.csv</code>, showing columns like <code>Latitude</code>, <code>Longitude</code>, <code>APC_Outlier_Score</code>, <code>PDP_Outlier_Score</code>, <code>LP_Outlier_Score</code>, <code>NNPP_Outlier_Score</code>, and <code>Max_Outlier_Score</code>. This image highlights the polling units with the highest outlier scores.
+<img src="images/sig.png" alt="Table of Outlier Scores"></li>
+</ul>
+</li>
+<li>
+<p><strong>Image 4: Map of Outliers by Local Moran’s I</strong></p>
+<ul>
+<li><strong>Description</strong>: A map showing polling units in Osun State, color-coded by Local Moran’s I scores for PDP votes. High scores (indicating significant outliers) are in red, while low scores are in green. This image visualizes the spatial distribution of outliers.
+<img src="images/lor.png" alt="Map of Outliers by Local Moran’s I"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-temporal-and-demographic-comparative-analysis">4. Temporal and Demographic Comparative Analysis</h2>
+<h3 id="objective">Objective</h3>
+<p>The fourth objective was to conduct a historical comparison of voting behaviors and integrate socio-economic or demographic data to contextualize anomalies.</p>
+<h3 id="methodology">Methodology</h3>
+<ul>
+<li>
+<p><strong>Historical Comparison</strong>:</p>
+<ul>
+<li>Collected historical election data for Osun State from 2015, 2019, and 2023.</li>
+<li>Calculated vote shares for each party (APC, PDP, LP, NNPP) over these years to identify temporal trends.</li>
+<li>Python code snippet for historical analysis:<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+<span class="hljs-comment"># Load historical data (assumed to be in separate CSV files)</span>
+df_2015 = pd.read_csv(<span class="hljs-string">'Osun_2015.csv'</span>)
+df_2019 = pd.read_csv(<span class="hljs-string">'Osun_2019.csv'</span>)
+df_2023 = pd.read_csv(<span class="hljs-string">'Osun_2023.csv'</span>)
+
+<span class="hljs-comment"># Calculate vote shares</span>
+<span class="hljs-keyword">for</span> year, df <span class="hljs-keyword">in</span> [(<span class="hljs-number">2015</span>, df_2015), (<span class="hljs-number">2019</span>, df_2019), (<span class="hljs-number">2023</span>, df_2023)]:
+    total_votes = df[[<span class="hljs-string">'APC'</span>, <span class="hljs-string">'PDP'</span>, <span class="hljs-string">'LP'</span>, <span class="hljs-string">'NNPP'</span>]].sum()
+    <span class="hljs-keyword">for</span> party <span class="hljs-keyword">in</span> [<span class="hljs-string">'APC'</span>, <span class="hljs-string">'PDP'</span>, <span class="hljs-string">'LP'</span>, <span class="hljs-string">'NNPP'</span>]:
+        df[<span class="hljs-string">f'<span class="hljs-subst">{party}</span>_Vote_Share'</span>] = df[party] / total_votes[party]
+    df[<span class="hljs-string">'Year'</span>] = year
+    df.to_csv(<span class="hljs-string">f'Osun_<span class="hljs-subst">{year}</span>_vote_shares.csv'</span>, index=<span class="hljs-literal">False</span>)
+
+<span class="hljs-comment"># Combine historical data</span>
+historical_df = pd.concat([df_2015, df_2019, df_2023])
+historical_df.to_csv(<span class="hljs-string">'Osun_historical.csv'</span>, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Demographic Integration</strong>:</p>
+<ul>
+<li>I Integrated socio-economic data (poverty rate, literacy rate, urbanization rate, youth population) for Osun State, sourced from publicly available datasets.</li>
+<li>Merged this data with the election dataset at the LGA level.</li>
+<li>Python code snippet for demographic integration:<pre class="hljs"><code><div><span class="hljs-comment"># Load election and demographic data</span>
+election_df = pd.read_csv(<span class="hljs-string">'Osun_with_outlier_scores.csv'</span>)
+demographic_df = pd.read_csv(<span class="hljs-string">'Osun_demographics.csv'</span>)
+
+<span class="hljs-comment"># Merge datasets on LGA</span>
+merged_df = election_df.merge(demographic_df, on=<span class="hljs-string">'LGA'</span>, how=<span class="hljs-string">'left'</span>)
+
+<span class="hljs-comment"># Save the merged dataset</span>
+merged_df.to_csv(<span class="hljs-string">'Osun_with_demographics.csv'</span>, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Historical Dataset</strong>: A CSV file named <code>Osun_historical.csv</code> with vote shares for each party across 2015, 2019, and 2023.</p>
+</li>
+<li>
+<p><strong>Merged Dataset with Demographics</strong>: A CSV file named <code>Osun_with_demographics.csv</code> with demographic data integrated at the LGA level.</p>
+</li>
+</ul>
+<h4 id="image-reference">Image Reference</h4>
+<ul>
+<li>
+<p><strong>Image 5: Historical Vote Share Trends</strong></p>
+<ul>
+<li><strong>Description</strong>: A line chart showing the vote share trends for APC, PDP, LP, and NNPP from 2015 to 2023 in Osun State. This image highlights temporal changes in voting behavior.
+<img src="images/t1.png" alt="Historical Vote Share Trends">
+<img src="images/t2.png" alt="Historical Vote Share Trends">
+<img src="images/t3.png" alt="Historical Vote Share Trends">
+<img src="images/t4.png" alt="Historical Vote Share Trends"></li>
+</ul>
+</li>
+<li>
+<p><strong>Image 6: Demographic Data Table</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the first few rows of <code>Osun_with_demographics.csv</code>, showing columns like <code>LGA</code>, <code>Poverty_Rate</code>, <code>Literacy_Rate</code>, and <code>Youth_Population_Percent</code>. This image shows the integration of demographic data
+<img src="images/demo.png" alt="Demographic Data Table"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="5-interactive-visualization-and-reporting">5. Interactive Visualization and Reporting</h2>
+<h3 id="objective">Objective</h3>
+<p>The fifth objective was to develop an interactive dashboard to visualize spatial-temporal anomalies, cluster analysis results, and demographic correlations, showing differences across neighborhoods, parties, and historical trends.</p>
+<h3 id="methodology">Methodology</h3>
+<ul>
+<li><strong>Tool Selection</strong>: We used Power BI to develop the interactive dashboard, as it supports geospatial visualizations, interactivity, and easy sharing.</li>
+<li><strong>Dashboard Structure</strong>:
+<ul>
+<li>Created five pages: Home, APC, PDP, NNPP, and LP.</li>
+<li>Each page includes visualizations tailored to the specific party, with the Home page providing an overview.</li>
+</ul>
+</li>
+<li><strong>Visualizations</strong>:
+<ul>
+<li><strong>Spatial-Temporal Anomalies</strong>:
+<ul>
+<li>A map of significant outliers in Osun State, showing polling units with outlier scores (0 to 3).</li>
+<li>Line charts showing vote share trends for each party from 2015 to 2023.</li>
+</ul>
+</li>
+<li><strong>Cluster Analysis Results</strong>: Included a map of clusters and a table showing cluster statistics.</li>
+<li><strong>Demographic Correlations</strong>: Included demographic metrics (e.g., Poverty Rate: 60.20%).</li>
+<li><strong>Outliers</strong>: Maps and tables showing polling units with high outlier scores.</li>
+<li><strong>Differences Across Neighborhoods</strong>: A bar chart showing LGAs with the highest percentage of outliers.</li>
+<li><strong>Parties</strong>: Donut charts showing the proportion of outliers for each party, and party-specific pages with tailored visuals.</li>
+<li><strong>Historical Trends</strong>: Line charts showing vote share trends over time.</li>
+</ul>
+</li>
+</ul>
+<h3 id="dashboard-pages">Dashboard Pages</h3>
+<ul>
+<li>
+<p><strong>Home Page</strong>:</p>
+<ul>
+<li>Overview metrics: Total Polling Units (2248), Total Votes (950K), Total Votes 2023 (221K), No. LGA (30), Poverty Rate (60.20%).</li>
+<li>Bar chart: &quot;LGAs with the Highest Outliers&quot; (e.g., Ife Central: 67%, Osogbo: 52%).</li>
+<li>Donut charts: &quot;Outliers by Parties&quot; (e.g., PDP: 23/149 Yes, APC: 23/152 Yes).</li>
+<li>Table: List of polling units with votes, Isolation Forest results, and outlier scores.</li>
+<li>Map: &quot;Map of Significant Outliers in Osun State&quot;.</li>
+</ul>
+</li>
+<li>
+<p><strong>APC Page</strong>:</p>
+<ul>
+<li>Line chart: &quot;APC Vote Share Trend (2015-2023)&quot;.</li>
+<li>Line chart: &quot;Public Behaviour towards APC&quot; (total votes over time).</li>
+<li>Table: Polling units with APC votes, Isolation Forest results, and outlier scores.</li>
+<li>Map: &quot;Map of Significant Outliers in Osun State for APC&quot;.</li>
+</ul>
+</li>
+<li>
+<p><strong>PDP Page</strong>:</p>
+<ul>
+<li>Line chart: &quot;PDP Vote Share Trend (2015-2023)&quot;.</li>
+<li>Line chart: &quot;Public Behaviour towards PDP&quot;.</li>
+<li>Table: Polling units with PDP votes, Isolation Forest results, and outlier scores.</li>
+<li>Map: &quot;Map of Significant Outliers in Osun State for PDP&quot;.</li>
+</ul>
+</li>
+<li>
+<p><strong>NNPP Page</strong>:</p>
+<ul>
+<li>Line chart: &quot;NNPP Vote Share Trend (2015-2023)&quot;.</li>
+<li>Line chart: &quot;Public Behaviour towards NNPP&quot;.</li>
+<li>Table: Polling units with NNPP votes, Isolation Forest results, and outlier scores.</li>
+<li>Map: &quot;Map of Significant Outliers in Osun State for NNPP&quot;.</li>
+</ul>
+</li>
+<li>
+<p><strong>LP Page</strong>:</p>
+<ul>
+<li>Line chart: &quot;LP Vote Share Trend (2015-2023)&quot;.</li>
+<li>Line chart: &quot;Public Behaviour towards LP&quot;.</li>
+<li>Table: Polling units with LP votes, Isolation Forest results, and outlier scores.</li>
+<li>Map: &quot;Map of Significant Outliers in Osun State for LP&quot;.</li>
+</ul>
+</li>
+<li>
+<p><strong>Interactive Dashboard</strong>: A Power BI dashboard with five pages, accessible via a shared link.
+<a href="https://app.powerbi.com/view?r=eyJrIjoiYTYyMjk5ODEtY2UwOC00MmQ1LWIwZDgtYmIyZWRmNmE1ZDY5IiwidCI6IjhmNzg3ODg0LTA2MTctNDEzMi05MzFhLTQyYjljM2ViNjM3YiJ9">Click Here</a></p>
+</li>
+</ul>
+<h4 id="image-reference">Image Reference</h4>
+<ul>
+<li>
+<p><strong>Image 8: Home Page of the Power BI Dashboard</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the Home page, showing the overview metrics, &quot;LGAs with the Highest Outliers&quot; bar chart, &quot;Outliers by Parties&quot; donut charts, table of polling units, and map of significant outliers. This image provides an overview of the dashboard.
+<img src="images/HOME.png" alt="Home Page of the Power BI Dashboard"></li>
+</ul>
+</li>
+<li>
+<p><strong>Image 9: APC Page of the Power BI Dashboard</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the APC page, showing the &quot;APC Vote Share Trend (2015-2023)&quot; line chart, &quot;Public Behaviour towards APC&quot; line chart, table of polling units, and map of significant outliers for APC. This image highlights party-specific analysis.
+<img src="images/APC.png" alt="APC Page of the Power BI Dashboard"></li>
+</ul>
+</li>
+<li>
+<p><strong>Image 10: PDP Page of the Power BI Dashboard</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the PDP page, showing the &quot;PDP Vote Share Trend (2015-2023)&quot; line chart, &quot;Public Behaviour towards PDP&quot; line chart, table of polling units, and map of significant outliers for PDP.
+<img src="images/PDP.png" alt="PDP Page of the Power BI Dashboard"></li>
+</ul>
+</li>
+<li>
+<p><strong>Image 11: NNPP Page of the Power BI Dashboard</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the NNPP page, showing the &quot;NNPP Vote Share Trend (2015-2023)&quot; line chart, &quot;Public Behaviour towards NNPP&quot; line chart, table of polling units, and map of significant outliers for NNPP.
+<img src="images/NNPP.png" alt="NNPP Page of the Power BI Dashboard"></li>
+</ul>
+</li>
+<li>
+<p><strong>Image 12: LP Page of the Power BI Dashboard</strong></p>
+<ul>
+<li><strong>Description</strong>: A screenshot of the LP page, showing the &quot;LP Vote Share Trend (2015-2023)&quot; line chart, &quot;Public Behaviour towards LP&quot; line chart, table of polling units, and map of significant outliers for LP.
+<img src="images/LP.png" alt="LP Page of the Power BI Dashboard"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="advanced-outlier-detection-report">Advanced Outlier Detection Report</h2>
+<h3 id="methodologies-employed">Methodologies Employed</h3>
+<ul>
+<li><strong>Geospatial Clustering</strong>: Used DBSCAN to cluster polling units based on geographic proximity, with sensitivity analysis at 500m, 1km, and 2km radii.</li>
+<li><strong>Spatial Statistical Methods</strong>:
+<ul>
+<li>Local Moran’s I to detect localized spatial autocorrelation.</li>
+<li>Getis-Ord Gi* to identify vote concentration hot spots.</li>
+</ul>
+</li>
+<li><strong>Machine Learning Validation</strong>: Used Isolation Forest to cross-validate spatial statistical results.</li>
+<li><strong>Demographic Integration</strong>: Merged socio-economic data (poverty rate, literacy rate, youth population) to contextualize anomalies.</li>
+<li><strong>Visualization</strong>: Developed a Power BI dashboard with interactive visualizations.</li>
+</ul>
+<h3 id="top-5-outlier-polling-units">Top 5 Outlier Polling Units</h3>
+<p>Based on the <code>Max_Outlier_Score</code>, the top 5 outlier polling units are:</p>
+<ol>
+<li><strong>COURT HALL OGBAGBA II (Ife Central LGA)</strong>:
+<ul>
+<li>Max Outlier Score: 3</li>
+<li>PDP Votes: 776, Isolation Forest: True</li>
+<li>Reason: High PDP votes compared to neighbors, significant spatial autocorrelation.</li>
+</ul>
+</li>
+<li><strong>HOLY SAVIOUR’S PRY. SCHOOL, OKE OTUBU (Osogbo LGA)</strong>:
+<ul>
+<li>Max Outlier Score: 3</li>
+<li>PDP Votes: 279, Isolation Forest: True</li>
+<li>Reason: Unusual vote concentration, flagged by all methods.</li>
+</ul>
+</li>
+<li><strong>A.U.D. ISALE OSUN 1 (Irepodun LGA)</strong>:
+<ul>
+<li>Max Outlier Score: 3</li>
+<li>PDP Votes: 609, Isolation Forest: False</li>
+<li>Reason: High Local Moran’s I and Getis-Ord Gi* scores.</li>
+</ul>
+</li>
+<li><strong>OPP. 17 UP GBONGAN ROAD (Osogbo LGA)</strong>:
+<ul>
+<li>Max Outlier Score: 3</li>
+<li>PDP Votes: 465, Isolation Forest: True</li>
+<li>Reason: Significant deviation from neighboring units.</li>
+</ul>
+</li>
+<li><strong>ALADURA JUNCTION (Ede South LGA)</strong>:
+<ul>
+<li>Max Outlier Score: 3</li>
+<li>PDP Votes: 331, Isolation Forest: True</li>
+<li>Reason: High outlier scores across all methods.</li>
+</ul>
+</li>
+</ol>
+<h3 id="hypotheses-on-potential-reasons-for-anomalies">Hypotheses on Potential Reasons for Anomalies</h3>
+<ul>
+<li><strong>Vote Buying or Suppression</strong>: High outlier scores in urban LGAs like Ife Central and Osogbo may indicate vote buying or suppression, as these areas have higher population density and political activity.</li>
+<li><strong>Logistical Issues</strong>: Some outliers in rural LGAs (e.g., Ede South) may be due to logistical issues, such as delayed result reporting or errors in vote counting.</li>
+<li><strong>Demographic Influence</strong>: Polling units in LGAs with high poverty rates (e.g., 60.20% in Osun State) may show anomalies due to socio-economic pressures influencing voting behavior.</li>
+</ul>
+<h3 id="recommendations-for-election-authorities">Recommendations for Election Authorities</h3>
+<ul>
+<li><strong>Investigate Top Outliers</strong>: INEC should investigate the top 5 outlier polling units, focusing on Ife Central and Osun State, for potential irregularities.</li>
+<li><strong>Enhance Monitoring in High-Risk LGAs</strong>: Increase monitoring in LGAs with the highest percentage of outliers (e.g., Ife Central, Osogbo).</li>
+<li><strong>Address Socio-Economic Factors</strong>: Implement voter education programs in areas with high poverty rates to reduce the influence of vote buying.</li>
+<li><strong>Improve Data Collection</strong>: Ensure accurate and timely reporting of results, especially in rural areas, to reduce logistical errors.</li>
+</ul>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>This project successfully identified outlier polling units in Osun State using advanced geospatial analysis, spatial statistics, and machine learning. The interactive Power BI dashboard provides a comprehensive view of spatial-temporal anomalies, differences across neighborhoods and parties, and historical trends. However, there are gaps in visualizing cluster analysis results and demographic correlations, which could be addressed in future iterations.</p>
+<h2 id="the-top-5-outlier-polling-units-and-high-risk-lgas-have-been-identified-with-hypotheses-and-recommendations-provided-to-inec-for-further-action">The top 5 outlier polling units and high-risk LGAs have been identified, with hypotheses and recommendations provided to INEC for further action.</h2>
+
+</body>
+</html>
