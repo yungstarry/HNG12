@@ -7,6 +7,10 @@
 Prepared by  Adordev
 ```
 
+[Click For Report on Power Bi Service](https://app.powerbi.com/view?r=eyJrIjoiYTYyMjk5ODEtY2UwOC00MmQ1LWIwZDgtYmIyZWRmNmE1ZDY5IiwidCI6IjhmNzg3ODg0LTA2MTctNDEzMi05MzFhLTQyYjljM2ViNjM3YiJ9)
+
+
+
 ## Introduction
 
 This project was undertaken to assist the Independent National Electoral Commission (INEC) in identifying potential electoral irregularities in the recently concluded election in Osun State, Nigeria. The goal was to detect outlier polling units where voting patterns significantly deviate from expected patterns or neighboring units, which could indicate manipulation or irregularities. The analysis leverages advanced geospatial techniques, statistical methods, machine learning, temporal comparisons, and demographic data to provide a comprehensive assessment of election integrity.
